@@ -22,7 +22,6 @@ explore: ad_impressions_daily {
 
 explore: ad_impressions_campaign {
   extends: [ad_impressions_campaign_config]
-  hidden: yes
 }
 
 explore: ad_impressions_campaign_daily {
@@ -42,7 +41,6 @@ explore: ad_impressions_ad_group_hour {
 
 explore: ad_impressions_ad {
   extends: [ad_impressions_ad_config]
-  hidden: yes
 }
 
 explore: ad_impressions_keyword {
@@ -82,5 +80,4 @@ explore: ad_impressions_video {
 
 explore: adwords_period_comparison {
   extends: [adwords_period_comparison_config]
-  hidden: yes
 }
