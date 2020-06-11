@@ -1,5 +1,5 @@
-- dashboard: google_adwords_spend
-  title: Google Adwords - Spend
+- dashboard: google_ads_spend
+  title: Google Ads - Spend
   extends: block_google_ads_base
   elements:
   - title: Spend To Date

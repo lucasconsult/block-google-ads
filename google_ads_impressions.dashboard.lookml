@@ -1,190 +1,14 @@
-- dashboard: google_adwords__clicks
-  title: Google Adwords - Clicks
+- dashboard: google_ads_impressions
+  title: Google Ads - Impressions
   extends: block_google_ads_base
   elements:
-  - title: Clicks by Network
-    name: Clicks by Network
-    model: block_google_ads
-    explore: ad_impressions_ad_group
-    type: looker_bar
-    fields: [fact.ad_network_type, fact.total_clicks]
-    filters:
-      fact.total_clicks: ">0"
-    sorts: [fact.ad_network_type]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
-        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
-            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    x_axis_label: Network
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    colors: ["#8ac8ca", "#7869df", "#6e98f9", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
-      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
-    series_types: {}
-    point_style: none
-    series_colors:
-      fact.total_clicks: "#a4a6a9"
-    show_value_labels: true
-    label_density: 25
-    label_color: []
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    listen:
-      Account: customer.account_descriptive_name
-      Campaign: campaign.name
-      Ad Group: ad_group.ad_group_name
-      Period: fact.period
-      Period Latest: fact.date_period_latest
-    row: 20
-    col: 0
-    width: 9
-    height: 5
-  - title: Clicks by Device
-    name: Clicks by Device
-    model: block_google_ads
-    explore: ad_impressions_ad_group
-    type: looker_bar
-    fields: [fact.device_type, fact.total_clicks]
-    filters:
-      fact.total_clicks: ">0"
-    sorts: [fact.total_clicks desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: true
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
-        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
-            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
-    x_axis_label: Device
-    colors: ["#d06180", "#7869df", "#6e98f9", "#8ac8ca", "#dc9d4f", "#4bb86a", "#a4a6a9",
-      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
-    series_types: {}
-    series_colors:
-      fact.total_clicks: "#87888a"
-    label_color: []
-    defaults_version: 1
-    listen:
-      Account: customer.account_descriptive_name
-      Campaign: campaign.name
-      Ad Group: ad_group.ad_group_name
-      Period: fact.period
-      Period Latest: fact.date_period_latest
-    row: 10
-    col: 0
-    width: 9
-    height: 5
-  - title: Clicks by Bid Strategy
-    name: Clicks by Bid Strategy
-    model: block_google_ads
-    explore: ad_impressions_keyword
-    type: looker_bar
-    fields: [keyword.bidding_strategy_type, fact.total_clicks]
-    filters:
-      fact.total_clicks: ">0"
-    sorts: [fact.total_clicks desc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: true
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
-        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
-            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
-    x_axis_label: Bid Strategy
-    colors: ["#dc9d4f", "#7869df", "#6e98f9", "#8ac8ca", "#d06180", "#4bb86a", "#a4a6a9",
-      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
-    series_types: {}
-    series_colors:
-      fact.total_clicks: "#87888a"
-    label_color: []
-    defaults_version: 1
-    listen:
-      Account: customer.account_descriptive_name
-      Campaign: campaign.name
-      Ad Group: ad_group.ad_group_name
-      Period: fact.period
-      Period Latest: fact.date_period_latest
-    row: 15
-    col: 0
-    width: 9
-    height: 5
-  - title: Clicks By State
-    name: Clicks By State
+  - title: Impressions By State
+    name: Impressions By State
     model: block_google_ads
     explore: ad_impressions_geo
     type: looker_map
-    fields: [geo_us_state.state, fact.total_clicks]
-    sorts: [fact.total_clicks desc]
+    fields: [geo_us_state.state, fact.total_impressions]
+    sorts: [fact.total_impressions desc]
     limit: 500
     query_timezone: America/Los_Angeles
     map_plot_mode: points
@@ -225,15 +49,278 @@
       Period: fact.period
       Period Latest: fact.date_period_latest
     row: 10
-    col: 9
-    width: 15
+    col: 8
+    width: 16
     height: 15
-  - title: Clicks by Day of Week and Hour of Day
-    name: Clicks by Day of Week and Hour of Day
+  - title: Impressions by Device
+    name: Impressions by Device
+    model: block_google_ads
+    explore: ad_impressions_ad_group
+    type: looker_bar
+    fields: [fact.device_type, fact.total_impressions]
+    filters:
+      fact.total_impressions: ">0"
+    sorts: [fact.total_impressions desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
+        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
+            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
+    x_axis_label: Device
+    colors: ["#d06180", "#7869df", "#6e98f9", "#8ac8ca", "#dc9d4f", "#4bb86a", "#a4a6a9",
+      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
+    series_types: {}
+    series_colors:
+      fact.total_impressions: "#B1399E"
+    label_color: []
+    defaults_version: 1
+    listen:
+      Account: customer.account_descriptive_name
+      Campaign: campaign.name
+      Ad Group: ad_group.ad_group_name
+      Period: fact.period
+      Period Latest: fact.date_period_latest
+    row: 10
+    col: 0
+    width: 8
+    height: 5
+  - title: Impressions by Bid Strategy
+    name: Impressions by Bid Strategy
+    model: block_google_ads
+    explore: ad_impressions_keyword
+    type: looker_bar
+    fields: [keyword.bidding_strategy_type, fact.total_impressions]
+    filters:
+      fact.total_impressions: ">0"
+    sorts: [fact.total_impressions desc]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
+        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
+            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
+    x_axis_label: Bid Strategy
+    colors: ["#dc9d4f", "#7869df", "#6e98f9", "#8ac8ca", "#d06180", "#4bb86a", "#a4a6a9",
+      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
+    series_types: {}
+    series_colors:
+      fact.total_impressions: "#B1399E"
+    label_color: []
+    defaults_version: 1
+    listen:
+      Account: customer.account_descriptive_name
+      Campaign: campaign.name
+      Ad Group: ad_group.ad_group_name
+      Period: fact.period
+      Period Latest: fact.date_period_latest
+    row: 15
+    col: 0
+    width: 8
+    height: 5
+  - title: Impressions by Network
+    name: Impressions by Network
+    model: block_google_ads
+    explore: ad_impressions_ad_group
+    type: looker_bar
+    fields: [fact.ad_network_type, fact.total_impressions]
+    filters:
+      fact.total_impressions: ">0"
+    sorts: [fact.ad_network_type]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
+        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
+            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
+    x_axis_label: Network
+    colors: ["#8ac8ca", "#7869df", "#6e98f9", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
+      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
+    series_types: {}
+    series_colors:
+      fact.total_impressions: "#B1399E"
+    label_color: []
+    defaults_version: 1
+    listen:
+      Account: customer.account_descriptive_name
+      Campaign: campaign.name
+      Ad Group: ad_group.ad_group_name
+      Period: fact.period
+      Period Latest: fact.date_period_latest
+    row: 20
+    col: 0
+    width: 8
+    height: 5
+  - title: Impressions by Day of Week
+    name: Impressions by Day of Week
+    model: block_google_ads
+    explore: period_fact
+    type: looker_bar
+    fields: [fact.date_day_of_week, fact.total_impressions]
+    fill_fields: [fact.date_day_of_week]
+    sorts: [fact.date_day_of_week]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
+        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
+            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
+    x_axis_label: ''
+    colors: ["#8ac8ca", "#7869df", "#6e98f9", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
+      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
+    series_types: {}
+    series_colors:
+      fact.total_impressions: "#B1399E"
+    label_color: []
+    show_row_numbers: true
+    truncate_column_names: false
+    hide_totals: false
+    hide_row_totals: false
+    table_theme: editable
+    enable_conditional_formatting: true
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    leftAxisLabelVisible: false
+    leftAxisLabel: ''
+    rightAxisLabelVisible: false
+    rightAxisLabel: ''
+    barColors: [red, blue]
+    smoothedBars: false
+    orientation: automatic
+    labelPosition: left
+    percentType: total
+    percentPosition: inline
+    valuePosition: right
+    labelColorEnabled: false
+    labelColor: "#FFF"
+    groupBars: true
+    labelSize: 10pt
+    showLegend: true
+    conditional_formatting: [{type: high to low, value: !!null '', background_color: !!null '',
+        font_color: !!null '', palette: {name: Red to Yellow to Green, colors: ["#F36254",
+            "#FCF758", "#4FBC89"]}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
+    defaults_version: 1
+    listen:
+      Account: customer.account_descriptive_name
+      Campaign: campaign.name
+      Ad Group: ad_group.ad_group_name
+      Period: fact.period
+      Period Latest: fact.date_period_latest
+    row: 25
+    col: 14
+    width: 10
+    height: 7
+  - title: Impressions by Day of Week and Hour of Day
+    name: Impressions by Day of Week and Hour of Day
     model: block_google_ads
     explore: ad_impressions_ad_group_hour
     type: looker_grid
-    fields: [fact.hour_of_day, fact.date_day_of_week, fact.total_clicks]
+    fields: [fact.hour_of_day, fact.date_day_of_week, fact.total_impressions]
     pivots: [fact.date_day_of_week]
     fill_fields: [fact.date_day_of_week]
     sorts: [fact.date_day_of_week 0, fact.hour_of_day]
@@ -259,21 +346,20 @@
     series_labels:
       fact.average_cost_per_click: "-"
     series_cell_visualizations:
-      fact.total_clicks:
+      fact.total_impressions:
         is_active: false
         palette:
-          palette_id: 985ba611-6af5-8d0f-5b6d-c3534d2068f9
+          palette_id: 9eb20bcb-501e-1caa-2d1c-6dc70742aaf4
           collection_id: b43731d5-dc87-4a8e-b807-635bef3948e7
           custom_colors:
-          - "#696969"
-          - "#778899"
-          - "#708090"
-          - "#2F4F4F"
-          - "#000000"
-    conditional_formatting: [{type: high to low, value: !!null '', background_color: !!null '',
+          - "#ffffff"
+          - "#de82c9"
+          - "#d11fd1"
+    conditional_formatting: [{type: along a scale..., value: !!null '', background_color: !!null '',
         font_color: !!null '', palette: {name: Red to Yellow to Green, colors: ["#F36254",
             "#FCF758", "#4FBC89"]}, bold: false, italic: false, strikethrough: false,
-        fields: [fact.total_clicks]}]
+        fields: [fact.total_impressions], color_application: {collection_id: legacy,
+          palette_id: legacy_diverging1, options: {steps: 5}}}]
     truncate_column_names: false
     leftAxisLabelVisible: false
     leftAxisLabel: ''
@@ -328,17 +414,17 @@
     row: 25
     col: 0
     width: 14
-    height: 14
-  - title: Ad Group Clicks Change
-    name: Ad Group Clicks Change
+    height: 15
+  - title: Ad Group Impressions Change
+    name: Ad Group Impressions Change
     model: block_google_ads
     explore: period_fact
     type: looker_bar
-    fields: [ad.creative, ad_group.ad_group_name, campaign.name, fact.total_cost,
-      last_fact.total_cost, last_fact.total_clicks, fact.total_clicks, fact.total_clicks_period_delta]
+    fields: [campaign.name, ad_group.ad_group_name, fact.average_cost_per_click, fact.total_cost,
+      last_fact.total_impressions, fact.total_impressions, last_fact.total_cost, fact.total_impressions_period_delta]
     filters:
-      fact.total_clicks_period_delta_abs: ">0"
-    sorts: [fact.total_clicks_period_delta_abs desc]
+      fact.total_impressions_period_delta_abs: ">0"
+    sorts: [fact.total_impressions_period_delta desc]
     limit: 500
     column_limit: 50
     x_axis_gridlines: false
@@ -381,9 +467,10 @@
       "#4bb86a", "#a4a6a9", "#a6b7ff", "#afe8fd", "#ea989"]
     series_types: {}
     series_colors:
-      last_fact.total_clicks: "#c8c9cc"
-      fact.total_clicks: "#87888a"
-    hidden_fields: [campaign.name, fact.total_cost, last_fact.total_cost, fact.total_clicks_period_delta]
+      fact.total_impressions: "#B1399E"
+      last_fact.total_impressions: "#e38bd1"
+    hidden_fields: [campaign.name, fact.total_cost, last_fact.total_cost, fact.average_cost_per_click,
+      fact.total_impressions_period_delta]
     defaults_version: 1
     listen:
       Account: customer.account_descriptive_name
@@ -391,20 +478,20 @@
       Ad Group: ad_group.ad_group_name
       Period: fact.period
       Period Latest: fact.date_period_latest
-    row: 39
+    row: 40
     col: 0
     width: 8
     height: 12
-  - title: Keyword Clicks Change
-    name: Keyword Clicks Change
+  - title: Keyword Impressions Change
+    name: Keyword Impressions Change
     model: block_google_ads
     explore: period_fact
     type: looker_bar
-    fields: [ad.creative, ad_group.ad_group_name, campaign.name, fact.total_cost,
-      last_fact.total_cost, last_fact.total_clicks, fact.total_clicks, fact.total_clicks_period_delta]
+    fields: [keyword.criteria, ad_group.ad_group_name, campaign.name, fact.total_cost,
+      last_fact.total_impressions, fact.total_impressions, last_fact.total_cost, fact.total_impressions_period_delta]
     filters:
-      fact.total_clicks_period_delta_abs: ">0"
-    sorts: [fact.total_clicks_period_delta desc]
+      fact.total_impressions_period_delta_abs: ">0"
+    sorts: [fact.total_impressions_period_delta desc]
     limit: 500
     column_limit: 50
     x_axis_gridlines: false
@@ -447,10 +534,10 @@
       "#4bb86a", "#a4a6a9", "#a6b7ff", "#afe8fd", "#ea989"]
     series_types: {}
     series_colors:
-      fact.total_clicks: "#87888a"
-      last_fact.total_clicks: "#c8c9cc"
+      fact.total_impressions: "#B1399E"
+      last_fact.total_impressions: "#e38bd1"
     hidden_fields: [campaign.name, ad_group.ad_group_name, fact.total_cost, last_fact.total_cost,
-      fact.total_clicks_period_delta]
+      fact.total_impressions_period_delta]
     defaults_version: 1
     listen:
       Account: customer.account_descriptive_name
@@ -458,20 +545,20 @@
       Ad Group: ad_group.ad_group_name
       Period: fact.period
       Period Latest: fact.date_period_latest
-    row: 39
+    row: 40
     col: 8
     width: 8
     height: 12
-  - title: Ad Clicks Change
-    name: Ad Clicks Change
+  - title: Ad Impressions Change
+    name: Ad Impressions Change
     model: block_google_ads
     explore: period_fact
     type: looker_bar
-    fields: [ad.creative, ad_group.ad_group_name, campaign.name, fact.total_cost,
-      last_fact.total_cost, last_fact.total_clicks, fact.total_clicks, fact.total_clicks_period_delta]
+    fields: [keyword.criteria, ad_group.ad_group_name, campaign.name, fact.total_cost,
+      last_fact.total_impressions, fact.total_impressions, last_fact.total_cost, fact.total_impressions_period_delta]
     filters:
-      fact.total_clicks_period_delta_abs: ">0"
-    sorts: [fact.total_clicks_period_delta desc]
+      fact.total_impressions_period_delta_abs: ">0"
+    sorts: [fact.total_impressions_period_delta_abs desc]
     limit: 50
     column_limit: 50
     query_timezone: America/Los_Angeles
@@ -504,9 +591,7 @@
     totals_color: "#808080"
     y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
         showLabels: true, showValues: false, tickDensity: default, tickDensityCustom: !!null '',
-        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
-            name: Period Fact, axisId: fact.average_cost_per_click}, {id: last_fact.average_cost_per_click,
-            name: Last Period Fact, axisId: last_fact.average_cost_per_click}]}]
+        type: linear, unpinAxis: false, valueFormat: !!null '', series: !!null ''}]
     limit_displayed_rows_values:
       show_hide: show
       first_last: first
@@ -515,8 +600,8 @@
       "#4bb86a", "#a4a6a9", "#a6b7ff", "#afe8fd", "#ea989"]
     series_types: {}
     series_colors:
-      fact.total_clicks: "#87888a"
-      last_fact.total_clicks: "#c8c9cc"
+      last_fact.total_impressions: "#e38bd1"
+      fact.total_impressions: "#B1399E"
     show_row_numbers: true
     truncate_column_names: false
     hide_totals: false
@@ -526,7 +611,7 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     hidden_fields: [ad_group.ad_group_name, campaign.name, fact.total_cost, last_fact.total_cost,
-      fact.total_clicks_period_delta]
+      fact.total_impressions_period_delta]
     defaults_version: 1
     listen:
       Account: customer.account_descriptive_name
@@ -534,16 +619,16 @@
       Ad Group: ad_group.ad_group_name
       Period: fact.period
       Period Latest: fact.date_period_latest
-    row: 39
+    row: 40
     col: 16
     width: 8
     height: 12
-  - title: Clicks by Hour of Day
-    name: Clicks by Hour of Day
+  - title: Impressions by Hour of Day
+    name: Impressions by Hour of Day
     model: block_google_ads
     explore: ad_impressions_ad_group_hour
     type: looker_column
-    fields: [fact.hour_of_day, fact.total_clicks]
+    fields: [fact.hour_of_day, fact.total_impressions]
     sorts: [fact.hour_of_day]
     limit: 500
     x_axis_gridlines: false
@@ -573,15 +658,15 @@
     show_totals_labels: false
     show_silhouette: false
     totals_color: "#808080"
-    y_axes: [{label: '', orientation: left, series: [{axisId: fact.total_clicks, id: fact.total_clicks,
-            name: Clicks}], showLabels: false, showValues: false, maxValue: !!null '',
-        unpinAxis: false, tickDensity: default, type: linear}]
+    y_axes: [{label: '', orientation: left, series: [{id: fact.total_clicks, name: Clicks,
+            axisId: fact.total_clicks}], showLabels: false, showValues: false, unpinAxis: false,
+        tickDensity: default, type: linear}]
     x_axis_label: Hour Of Day
     colors: ["#8ac8ca", "#7869df", "#6e98f9", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
       "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
     series_types: {}
     series_colors:
-      fact.total_clicks: "#87888a"
+      fact.total_impressions: "#B1399E"
     label_color: []
     show_row_numbers: true
     truncate_column_names: false
@@ -621,101 +706,15 @@
     row: 32
     col: 14
     width: 10
-    height: 7
-  - title: Clicks by Day of Week
-    name: Clicks by Day of Week
-    model: block_google_ads
-    explore: period_fact
-    type: looker_bar
-    fields: [fact.date_day_of_week, fact.total_clicks]
-    fill_fields: [fact.date_day_of_week]
-    sorts: [fact.date_day_of_week]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: true
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: bottom,
-        showLabels: false, showValues: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear, unpinAxis: false, valueFormat: !!null '', series: [{id: fact.average_cost_per_click,
-            name: Ad Stats Cost, axisId: fact.average_cost_per_click}]}]
-    x_axis_label: ''
-    colors: ["#8ac8ca", "#7869df", "#6e98f9", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
-      "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
-    series_types: {}
-    series_colors:
-      fact.total_clicks: "#87888a"
-    label_color: []
-    show_row_numbers: true
-    truncate_column_names: false
-    hide_totals: false
-    hide_row_totals: false
-    table_theme: editable
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    leftAxisLabelVisible: false
-    leftAxisLabel: ''
-    rightAxisLabelVisible: false
-    rightAxisLabel: ''
-    barColors: [red, blue]
-    smoothedBars: false
-    orientation: automatic
-    labelPosition: left
-    percentType: total
-    percentPosition: inline
-    valuePosition: right
-    labelColorEnabled: false
-    labelColor: "#FFF"
-    groupBars: true
-    labelSize: 10pt
-    showLegend: true
-    conditional_formatting: [{type: high to low, value: !!null '', background_color: !!null '',
-        font_color: !!null '', palette: {name: Red to Yellow to Green, colors: ["#F36254",
-            "#FCF758", "#4FBC89"]}, bold: false, italic: false, strikethrough: false,
-        fields: !!null ''}]
-    defaults_version: 1
-    listen:
-      Account: customer.account_descriptive_name
-      Campaign: campaign.name
-      Ad Group: ad_group.ad_group_name
-      Period: fact.period
-      Period Latest: fact.date_period_latest
-    row: 25
-    col: 14
-    width: 10
-    height: 7
-  - title: Clicks To Date
-    name: Clicks To Date
+    height: 8
+  - title: Impressions To Date
+    name: Impressions To Date
     model: block_google_ads
     explore: period_fact
     type: looker_column
     fields: [fact.date_period_dynamic_grain, fact.total_conversions, fact.average_cost_per_conversion,
       fact.average_conversion_rate, fact.average_cost_per_click, fact.average_click_rate,
-      fact.total_clicks]
+      fact.total_clicks, fact.total_impressions]
     sorts: [fact.date_period_dynamic_grain]
     limit: 500
     column_limit: 50
@@ -736,7 +735,7 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    point_style: none
+    point_style: circle
     show_value_labels: false
     label_density: 1
     x_axis_scale: auto
@@ -765,7 +764,7 @@
         maxValue: !!null '', minValue: !!null '', valueFormat: !!null '', unpinAxis: false,
         tickDensity: default, tickDensityCustom: !!null '', type: linear}]
     hidden_series: [fact.total_conversions, fact.average_cost_per_conversion, fact.average_conversion_rate,
-      fact.average_cost_per_click]
+      fact.average_cost_per_click, fact.average_click_rate]
     colors: ["#7869df", "#6e98f9", "#8ac8ca", "#d06180", "#dc9d4f", "#4bb86a", "#a4a6a9",
       "#a6b7ff", "#afe8fd", "#ea9895", "#f1e582"]
     series_types:
@@ -775,8 +774,10 @@
       fact.average_click_rate: line
       fact.average_cost_per_click: line
       fact.total_clicks: line
+      fact.total_impressions: line
     series_colors:
-      fact.total_clicks: "#87888a"
+      fact.total_impressions: "#B1399E"
+      fact.average_cost_per_click: "#dc9d4f"
     series_labels:
       fact.total_conversions: Conversions
       fact.total_clicks: Clicks

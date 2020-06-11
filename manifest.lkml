@@ -18,8 +18,8 @@ remote_dependency: app-marketing-google-ads {
 
 local_dependency: {
   project: "@{CONFIG_PROJECT_NAME}"
-  override_constant: ADWORDS_SCHEMA {
-    value: "@{ADWORDS_SCHEMA}"
+  override_constant: GOOGLE_ADS_SCHEMA {
+    value: "@{GOOGLE_ADS_SCHEMA}"
 }
 }
 
@@ -33,7 +33,7 @@ constant: CONNECTION_NAME {
   export: override_required
 }
 
-constant: ADWORDS_SCHEMA {
+constant: GOOGLE_ADS_SCHEMA {
   value: "adwords_generated_2"
   export: override_required
 }
