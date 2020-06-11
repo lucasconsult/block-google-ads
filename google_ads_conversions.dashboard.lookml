@@ -1,5 +1,5 @@
-- dashboard: google_adwords_conversions
-  title: Google Adwords - Conversions
+- dashboard: google_ads_conversions
+  title: Google Ads - Conversions
   extends: block_google_ads_base
   elements:
   - title: Conversions To Date

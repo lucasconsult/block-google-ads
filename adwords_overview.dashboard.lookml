@@ -1,5 +1,5 @@
-- dashboard: adwords_overview
-  title: Google AdWords Overview
+- dashboard: google_ads_overview
+  title: Google Ads Overview
   extends: block_google_ads_base
   elements:
   - title: Conversion Trend
