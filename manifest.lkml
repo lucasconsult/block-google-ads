@@ -3,7 +3,7 @@ project_name: "block-google-ads"
 # Library of common ad metrics definitions and date periods
 remote_dependency: app-marketing-common {
   url: "git://github.com/looker/app-marketing-common-bigquery"
-  ref: "3d8fe8aa069aecfb55b245599cf2f7a9ed1b8f36"
+  ref: "d0405a8ef76925449d722b11103f419b3d40e37b"
 }
 
 remote_dependency: app-marketing-google-ads-adapter {
