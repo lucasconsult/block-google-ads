@@ -102,7 +102,7 @@ Targeting Reports
 
 ### Block Info
 
-This Block is modeled on the schema from Fivetrans's [Google Ads ETL](https://fivetran.com/directory/google-ads).
+This Block is modeled on the schema from Fivetrans's [Google Ads ETL](https://fivetran.com/directory/google-ads) brought over with Looker-specific connector (https://fivetran.com/integrations/adwords_for_looker).
 
 The schema documentation for Ads can be found in [Google's docs](https://developers.google.com/adwords/api/docs/appendix/reports).
 
