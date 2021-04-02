@@ -1,5 +1,7 @@
 # Google Ads Block
 
+THIS BLOCK IS DEPRECATED AS OF 4/2/2021.
+
 This repository contains views and explores used for the Google Ads Block dashboards.
 There are 5 dashboards that come with this block: Google Ads Overview, Google Ads - Clicks,
 Google Ads - Conversions, Google Ads - Impressions and Google Ads - Spend. Each of the dashboards
