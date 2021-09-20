@@ -1,0 +1,35 @@
+{
+  "label": "Google Ads",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://marketplace-api.looker.com/block-icons/google_icon.png",
+    "tagline": "Dig into campaigns and keywords, optimize spend and allocation, and maximize channel ROI for Google Ads."
+  },
+
+  "constants": {
+    "CONNECTION_NAME": {
+      "label": "Connection Name",
+      "value_constraint": "connection"
+    },
+    "GOOGLE_ADS_SCHEMA": {
+      "label": "Google Ads Schema Name"
+    },
+    "CONFIG_PROJECT_NAME": {
+      "label": "Config Project Name"
+    }
+  },
+  "models": [
+    {
+      "name": "block_google_ads",
+      "connection_constant": "CONNECTION_NAME"
+    }
+  ],
+  "auxiliary_projects": [
+    {
+      "git_uri": "git://github.com/looker/block-google-ads-config.git",
+      "git_ref": "5ffa3152c430d84385fbbebe45fcbb31a71cce34",
+      "label": "Google Ads Config",
+      "constant_name": "CONFIG_PROJECT_NAME"
+    }
+  ]
+}
