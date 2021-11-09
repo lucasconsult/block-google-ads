@@ -1,83 +1,88 @@
 connection: "@{CONNECTION_NAME}"
 
-include: "//app-marketing-common/*.view"
-include: "//@{CONFIG_PROJECT_NAME}/*.view"
-include: "//@{CONFIG_PROJECT_NAME}/*.explore"
-include: "//@{CONFIG_PROJECT_NAME}/*.dashboard"
+include: "/dashboards/*.dashboard"
+include: "/views/*.view"
+include: "/views/app-marketing-common/*.view"
+include: "/explores/**/*.explore"
 
-include: "*.dashboard"
-include: "*.view"
+datagroup: adwords_etl_datagroup {
+  sql_trigger: SELECT COUNT(*) FROM `@{GOOGLE_ADS_SCHEMA}.account_hourly_stats` ;;
+  max_cache_age: "24 hours"
+}
 
 # Daily Account Aggregation
 explore: ad_impressions {
-  extends: [ad_impressions_config]
+  extends: [ad_impressions_template]
   hidden: yes
 }
 
 explore: ad_impressions_daily {
-  extends: [ad_impressions_daily_config]
+  extends: [ad_impressions_daily_template]
   hidden: yes
 }
 
 
 explore: ad_impressions_campaign {
-  extends: [ad_impressions_campaign_config]
+  extends: [ad_impressions_campaign_template]
+  group_label: "Block Adwords"
 }
 
 explore: ad_impressions_campaign_daily {
-  extends: [ad_impressions_campaign_daily_config]
+  extends: [ad_impressions_campaign_daily_template]
   hidden: yes
 }
 
 explore: ad_impressions_ad_group {
-  extends: [ad_impressions_ad_group_config]
+  extends: [ad_impressions_ad_group_template]
   hidden: yes
 }
 
 explore: ad_impressions_ad_group_hour {
-  extends: [ad_impressions_ad_group_hour_config]
+  extends: [ad_impressions_ad_group_hour_template]
   hidden: yes
 }
 
 explore: ad_impressions_ad {
-  extends: [ad_impressions_ad_config]
+  extends: [ad_impressions_ad_template]
+  hidden: no
+  group_label: "Block Adwords"
 }
 
 explore: ad_impressions_keyword {
-  extends: [ad_impressions_keyword_config]
+  extends: [ad_impressions_keyword_template]
   hidden: yes
 }
 
 explore: ad_impressions_geo {
-  extends: [ad_impressions_geo_config]
+  extends: [ad_impressions_geo_template]
   hidden: yes
 }
 
 explore: ad_impressions_age_range {
-  extends: [ad_impressions_age_range_config]
+  extends: [ad_impressions_age_range_template]
   hidden: yes
 }
 
 explore: ad_impressions_gender {
-  extends: [ad_impressions_gender_config]
+  extends: [ad_impressions_gender_template]
   hidden: yes
 }
 
 explore: ad_impressions_audience {
-  extends: [ad_impressions_audience_config]
+  extends: [ad_impressions_audience_template]
   hidden: yes
 }
 
 explore: ad_impressions_parental_status {
-  extends: [ad_impressions_parental_status_config]
+  extends: [ad_impressions_parental_status_template]
   hidden: yes
 }
 
 explore: ad_impressions_video {
-  extends: [ad_impressions_video_config]
+  extends: [ad_impressions_video_template]
   hidden: yes
 }
 
 explore: adwords_period_comparison {
-  extends: [adwords_period_comparison_config]
+  extends: [period_fact]
 }
