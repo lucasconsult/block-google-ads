@@ -1,4 +1,8 @@
+include: "ad_metrics_base.view"
 
+view: google_ad_metrics_base {
+  extends: [google_ad_metrics_base_template]
+}
 
 view: google_ad_metrics_dimension_base {
   extension: required

@@ -1,8 +1,8 @@
-include: "/views/app-marketing-common/date_base.view"
-include: "/views/app-marketing-common/period_base.view"
-include: "/views/app-marketing-common/date_primary_key_base.view"
-include: "/views/app-marketing-common/pdt_base.view"
-include: "/views/google_ads.view"
+include: "/views/base/date_base.view"
+include: "/views/base/period_base.view"
+include: "/views/base/date_primary_key_base.view"
+include: "/views/base/pdt_base.view"
+include: "/views/base/ad_metrics_base.view"
 
 view: google_ads_ad_impressions {
   extends: [ad_metrics_base, date_base, period_base, date_primary_key_base, pdt_base]

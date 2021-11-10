@@ -1,5 +1,9 @@
-include: "ad_group.view"
-include: "google_adwords_base.view"
+include: "adwords_config.view"
+include: "base/google_adwords_base.view"
+
+view: keyword {
+  extends: [keyword_adapter]
+}
 
 view: keyword_adapter {
   extends: [adwords_config, google_adwords_base]

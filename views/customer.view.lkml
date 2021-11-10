@@ -1,15 +1,7 @@
-include: "google_adwords_base.view"
+include: "base/google_adwords_base.view"
+include: "adwords_config.view"
 
-view: account_table_name_base {
-  extension: required
-  dimension: account_table_name {
-    hidden: yes
-    sql:account;;
-  }
-}
-
-view: customer_adapter {
-  extension: required
+view: customer {
   extends: [account_table_name_base, google_adwords_base, adwords_config]
   sql_table_name:
   (
@@ -49,4 +41,12 @@ view: customer_adapter {
       type: string
       sql: ${TABLE}.customer_descriptive_name ;;
     }
+}
+
+view: account_table_name_base {
+  extension: required
+  dimension: account_table_name {
+    hidden: yes
+    sql:account;;
   }
+}

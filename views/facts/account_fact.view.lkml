@@ -1,5 +1,4 @@
-include: "/views/app-marketing-common/date_base.view"
-include: "/views/google_ads.view"
+include: "/views/base/*.view"
 
 view: account_key_base {
   extends: [date_primary_key_base]

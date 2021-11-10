@@ -8,8 +8,7 @@ view: ad_group_table_name_base {
   }
 }
 
-view: ad_group_adapter {
-  extension: required
+view: ad_group {
   extends: [ad_group_table_name_base, google_adwords_base, adwords_config]
   sql_table_name:{{ ad_group.adwords_schema._sql }}.{{ ad_group.ad_group_table_name._sql }};;
 

@@ -1,5 +1,8 @@
-include: "/views/app-marketing-common/*.view"
-include: "/views/google_ads.view"
+include: "/views/base/*.view"
+
+view: adwords_period_comparison {
+  extends: [period_fact]
+}
 
 view: period_fact {
   extends: [date_base, period_base, ad_metrics_period_comparison_base, ad_metrics_weighted_period_comparison_base, ad_metrics_parent_comparison_base, google_ad_metrics_base]
@@ -87,7 +90,7 @@ view: period_fact {
           {% endif %}
         )
           {% endif %}
-       ;;
+      ;;
     }
     dimension: primary_key {
       primary_key: yes

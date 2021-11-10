@@ -28,5 +28,4 @@ view: google_adwords_base {
     hidden: yes
     sql: CAST(${TABLE}.external_customer_id as STRING) ;;
   }
-
 }

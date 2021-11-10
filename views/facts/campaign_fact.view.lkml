@@ -1,4 +1,4 @@
-include: "/views/app-marketing-common/ad_metrics_parent_comparison_base.view"
+include: "/views/base/ad_metrics_parent_comparison_base.view"
 include: "account_fact.view"
 
 view: campaign_key_base {

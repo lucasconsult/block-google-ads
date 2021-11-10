@@ -1,5 +1,5 @@
-include: "/views/app-marketing-common/date_base.view"
-include: "/views/app-marketing-common/period_base.view"
+include: "/views/base/date_base.view"
+include: "/views/base/period_base.view"
 
 view: campaign_budget_date_fact {
   extends: [date_base, period_base]

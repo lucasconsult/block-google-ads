@@ -1,5 +1,5 @@
-include: "/views/app-marketing-common/ad_metrics_base_template.view"
-include: "google_ad_metrics_base.view"
+include: "/views/base/ad_metrics_base.view"
+include: "/views/base/google_ad_metrics_base.view"
 
 view: date_fact {
   extends: [ad_metrics_dimension_base, google_ad_metrics_dimension_base]

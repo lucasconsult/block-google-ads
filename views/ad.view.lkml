@@ -1,7 +1,7 @@
-include: "ad_group.view"
+include: "/views/base/google_adwords_base.view"
+include: "adwords_config.view"
 
-view: ad_adapter {
-  extension: required
+view: ad {
   extends: [adwords_config, google_adwords_base]
   sql_table_name: {{ ad.adwords_schema._sql }}.ad ;;
 

@@ -1,8 +1,6 @@
 include: "customer.view"
-include: "/views/adwords_config.view"
 
-view: campaign_adapter {
-  extension: required
+view: campaign {
   extends: [adwords_config, google_adwords_base]
   sql_table_name: {{ campaign.adwords_schema._sql }}.campaign ;;
 

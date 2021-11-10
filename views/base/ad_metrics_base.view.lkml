@@ -1,3 +1,7 @@
+view: ad_metrics_base {
+  extends: [ad_metrics_base_template]
+}
+
 view: ad_metrics_dimension_base {
   extension: required
 
