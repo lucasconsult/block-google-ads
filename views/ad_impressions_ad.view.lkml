@@ -1,7 +1,7 @@
 include: "/views/**/*.view"
 view: ad_impressions_ad {
   extends: [ google_adwords_base,  google_ad_metrics_base]
-  sql_table_name: {{ fact.adwords_schema._sql }}.ad_stats ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.ad_stats ;;
 
 
 

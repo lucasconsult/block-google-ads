@@ -1,7 +1,7 @@
 include: "/views/**/*.view"
 view: ad_impressions_keyword {
   extends: [date_base, period_base, google_ad_metrics_base,  google_adwords_base]
-  sql_table_name: {{ fact.adwords_schema._sql }}.keyword_stats ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.keyword_stats ;;
 
   dimension: keyword_primary_key {
     hidden: yes

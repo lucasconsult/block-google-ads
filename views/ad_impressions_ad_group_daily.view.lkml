@@ -2,7 +2,7 @@ include: "/views/**/*.view"
 
 view: ad_impressions_ad_group_daily {
   extends: [google_adwords_base,  google_ad_metrics_base]
-  sql_table_name: {{ fact.adwords_schema._sql }}.ad_group_stats ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.ad_group_stats ;;
 
   dimension: primary_key {
     primary_key: yes

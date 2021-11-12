@@ -3,7 +3,7 @@ include: "/views/**/*.view"
 view: ad_impressions_geo {
   extends: [date_base, period_base, google_ad_metrics_base, ad_impressions_ad_group_derived_table,  google_adwords_base]
 
-  sql_table_name: {{ fact.adwords_schema._sql }}.geo_stats ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.geo_stats ;;
 
   dimension: city_criteria_id {
     hidden: yes

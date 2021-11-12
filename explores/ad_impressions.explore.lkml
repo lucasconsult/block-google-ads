@@ -118,9 +118,7 @@ explore: ad_impressions_geo {
 
 
 
-explore: adwords_period_comparison {
-  extends: [period_fact]
-}
+
 
 # Multi-Use Joins
 explore: ad_join {
@@ -283,7 +281,6 @@ explore: keyword {
 explore: period_fact {
   extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
   persist_with: adwords_etl_datagroup
-  hidden: yes
   from: period_fact
   view_name: fact
   label: "Adwords Period Comparison"
