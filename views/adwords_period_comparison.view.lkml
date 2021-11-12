@@ -7,9 +7,7 @@ view: adwords_period_comparison {
 view: period_fact {
   extends: [date_base, period_base, ad_metrics_period_comparison_base, ad_metrics_weighted_period_comparison_base, ad_metrics_parent_comparison_base, google_ad_metrics_base]
 
-  dimension: external_customer_id {
-    hidden: yes
-  }
+
   dimension: campaign_id {
     hidden: yes
   }
@@ -49,7 +47,6 @@ view: period_fact {
       hidden: yes
       sql:
       {% if _dialect._name == 'snowflake' %}
-        TO_CHAR(${external_customer_id})
           {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
             || '-' || TO_CHAR(${campaign_id})
           {% endif %}
@@ -62,7 +59,7 @@ view: period_fact {
             || '-' || TO_CHAR(${criterion_id})
           {% endif %}
       {% elsif _dialect._name == 'redshift' %}
-        CAST(${external_customer_id} AS VARCHAR)
+
           {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
             || '-' || CAST(${campaign_id} AS VARCHAR)
           {% endif %}
@@ -76,7 +73,7 @@ view: period_fact {
           {% endif %}
       {% else %}
         CONCAT(
-        CAST(${external_customer_id} AS STRING)
+
           {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
             ,"-", CAST(${campaign_id} AS STRING)
           {% endif %}

@@ -5,7 +5,6 @@ view: ad_impressions {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_daily {
       column: date { field: fact._date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: ad_network_type_1 { field: fact.ad_network_type1 }
       column: ad_network_type_2 { field: fact.ad_network_type2 }
       column: device { field: fact.device }
@@ -392,7 +391,6 @@ view: ad_impressions {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -500,15 +498,7 @@ view: ad_impressions {
     type: yesno
     sql: 1=1 ;;
   }
-  dimension: external_customer_id {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.external_customer_id ;;
-  }
-  dimension: external_customer_id_string {
-    hidden: yes
-    sql: CAST(${TABLE}.external_customer_id as STRING) ;;
-  }
+
   dimension: ad_network_type {
     hidden: yes
     type: string
@@ -664,7 +654,7 @@ view: ad_impressions {
     description: "Total ad interactions."
     type:  sum
     sql:  ${interactions} ;;
-    drill_fields: [external_customer_id, total_impressions]
+    drill_fields: [total_impressions]
     value_format_name: decimal_0
   }
   measure: average_click_rate {
@@ -792,7 +782,7 @@ view: ad_impressions {
     description: "Total ad impressions."
     type:  sum
     sql:  ${impressions} ;;
-    drill_fields: [external_customer_id, total_impressions]
+    drill_fields: [total_impressions]
     value_format_name: decimal_0
   }
   set: ad_metrics_set {
@@ -836,7 +826,6 @@ view: ad_impressions_daily {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -950,7 +939,6 @@ view: ad_impressions_campaign {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1065,7 +1053,6 @@ view: ad_impressions_campaign_daily {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1196,7 +1183,6 @@ view: ad_impressions_ad_group_hour {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1327,7 +1313,6 @@ view: ad_impressions_ad_group_daily {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1458,7 +1443,6 @@ view: ad_impressions_ad_group {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1607,7 +1591,6 @@ view: ad_impressions_keyword {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -1766,16 +1749,7 @@ view: ad_impressions_ad {
     sql: 1=1 ;;
   }
 
-  dimension: external_customer_id {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.external_customer_id ;;
-  }
 
-  dimension: external_customer_id_string {
-    hidden: yes
-    sql: CAST(${TABLE}.external_customer_id as STRING) ;;
-  }
 
   dimension_group: date {
     group_label: "Event"
@@ -2129,7 +2103,6 @@ view: ad_impressions_ad {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -2384,7 +2357,7 @@ view: ad_impressions_ad {
     description: "Total ad interactions."
     type:  sum
     sql:  ${interactions} ;;
-    drill_fields: [external_customer_id, total_impressions]
+    drill_fields: [ total_impressions]
     value_format_name: decimal_0
   }
   measure: average_click_rate {
@@ -2512,7 +2485,6 @@ view: ad_impressions_ad {
     description: "Total ad impressions."
     type:  sum
     sql:  ${impressions} ;;
-    drill_fields: [external_customer_id, total_impressions]
     value_format_name: decimal_0
   }
   set: ad_metrics_set {
@@ -2615,7 +2587,6 @@ view: ad_impressions_geo {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -2793,7 +2764,6 @@ view: ad_impressions_age_range {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -2941,7 +2911,6 @@ view: ad_impressions_gender {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -3090,7 +3059,6 @@ view: ad_impressions_audience {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -3239,7 +3207,6 @@ view: ad_impressions_parental_status {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -3423,7 +3390,6 @@ view: ad_impressions_derived_table {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_daily {
       column: date { field: fact._date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: ad_network_type_1 { field: fact.ad_network_type1 }
       column: ad_network_type_2 { field: fact.ad_network_type2 }
       column: device { field: fact.device }
@@ -3442,7 +3408,6 @@ view: ad_impressions_campaign_derived_table {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_campaign_daily {
       column: date { field: fact._date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id { field: fact.campaign_id }
       column: ad_network_type_1 { field: fact.ad_network_type1 }
       column: ad_network_type_2 { field: fact.ad_network_type2 }
@@ -3462,7 +3427,6 @@ view: ad_impressions_ad_group_derived_table {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_ad_group_daily {
       column: date { field: fact._date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id { field: fact.campaign_id }
       column: ad_group_id { field: fact.ad_group_id }
       column: ad_network_type_1 { field: fact.ad_network_type1 }
@@ -3494,7 +3458,6 @@ view: ad_impressions_ad_conversion_adapter {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1}, "|",
       ${ad_network_type2}, "|",
       ${device}, "|",

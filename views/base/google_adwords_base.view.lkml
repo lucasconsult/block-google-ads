@@ -18,14 +18,5 @@ view: google_adwords_base {
     sql: 1=1 ;;
   }
 
-  dimension: external_customer_id {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.external_customer_id ;;
-  }
 
-  dimension: external_customer_id_string {
-    hidden: yes
-    sql: CAST(${TABLE}.external_customer_id as STRING) ;;
-  }
 }

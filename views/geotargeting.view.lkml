@@ -1,5 +1,5 @@
 view: geotargeting {
-  sql_table_name: `bigquery-connectors.geotargeting.20180321` ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.GEOTARGET ;;
 
   dimension: canonical_name {
     type: string

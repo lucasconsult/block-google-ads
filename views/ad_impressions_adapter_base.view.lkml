@@ -9,7 +9,6 @@ view: ad_impressions_adapter_base {
     hidden: yes
     sql: concat(
       ${date_string}, "|",
-      ${external_customer_id_string}, "|",
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
@@ -257,7 +256,6 @@ view: criteria_base {
   dimension: key_base {
     hidden: yes
     sql: CONCAT(
-      CAST(${external_customer_id} AS STRING), "-",
       CAST(${campaign_id} AS STRING), "-",
       CAST(${ad_group_id} AS STRING), "-",
       CAST(${criterion_id} AS STRING)) ;;
@@ -285,7 +283,7 @@ view: criteria_base {
     fields: [criterion_id, criteria, status, cpc_bid]
   }
   set: detail {
-    fields: [external_customer_id, campaign_id, ad_group_id, count, count_active, status_active, drill_detail*]
+    fields: [ campaign_id, ad_group_id, count, count_active, status_active, drill_detail*]
   }
 }
 view: date_hour_base {

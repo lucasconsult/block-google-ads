@@ -7,7 +7,6 @@ view: campaign_budget_date_fact {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_campaign {
       column: _date { field: fact.date_date}
-      column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id { field: fact.campaign_id }
       column: budget_id { field: campaign.budget_id }
       column: amount { field: campaign.amount }

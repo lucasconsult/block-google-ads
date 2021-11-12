@@ -7,13 +7,7 @@ view: account_key_base {
   dimension: account_key_base {
     hidden: yes
     sql:
-      {% if _dialect._name == 'snowflake' %}
-        TO_CHAR(${external_customer_id})
-      {% elsif _dialect._name == 'redshift' %}
-        CAST(${external_customer_id} AS VARCHAR)
-      {% else %}
-        CAST(${external_customer_id} AS STRING)
-      {% endif %} ;;
+     '' ;;
   }
   dimension: key_base {
     hidden: yes
@@ -28,7 +22,6 @@ view: account_date_fact {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions {
       column: _date { field: fact.date_date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: clicks {field: fact.total_clicks }
       column: conversions {field: fact.total_conversions}
       column: conversionvalue {field: fact.total_conversionvalue}
@@ -37,9 +30,7 @@ view: account_date_fact {
       column: interactions {field: fact.total_interactions}
     }
   }
-  dimension: external_customer_id {
-    hidden: yes
-  }
+
   dimension: _date {
     hidden: yes
     type: date_raw
@@ -51,6 +42,6 @@ view: account_date_fact {
       {% endif %} ;;
   }
   set: detail {
-    fields: [external_customer_id]
+    fields: []
   }
 }

@@ -2,8 +2,22 @@ include: "campaign.view"
 
 view: ad_group {
   extends: [google_adwords_base, adwords_config]
-  sql_table_name:{{ ad_group.adwords_schema._sql }}.{{ ad_group.ad_group_table_name._sql }};;
+  derived_table: {
+    datagroup_trigger: adwords_etl_datagroup
 
+    sql:SELECT
+      a.*
+      FROM
+      @{GOOGLE_ADS_SCHEMA}.AD_GROUP_HISTORY a
+      INNER JOIN (
+      SELECT
+      ID,
+      MAX(UPDATED_AT) AS LATEST_RECORD
+      FROM @{GOOGLE_ADS_SCHEMA}.AD_GROUP_HISTORY
+      GROUP BY 1) b
+      ON a.ID = b.ID
+      AND a.UPDATED_AT = b.LATEST_RECORD;;
+  }
   dimension: ad_group_table_name {
     hidden: yes
     sql:ad_group;;
@@ -18,7 +32,7 @@ view: ad_group {
   dimension: ad_group_id {
     hidden: yes
     type: number
-    sql: ${TABLE}.ad_group_id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: ad_group_mobile_bid_modifier {
@@ -29,7 +43,7 @@ view: ad_group {
 
   dimension: ad_group_name {
     type: string
-    sql: ${TABLE}.ad_group_name ;;
+    sql: ${TABLE}.name ;;
     link: {
       label: "View on AdWords"
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
@@ -45,7 +59,7 @@ view: ad_group {
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       label: "Change Bid"
     }
-    required_fields: [external_customer_id, campaign_id, ad_group_id]
+    required_fields: [campaign_id, ad_group_id]
   }
 
   dimension: ad_group_status {

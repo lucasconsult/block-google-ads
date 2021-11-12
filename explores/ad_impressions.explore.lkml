@@ -82,8 +82,7 @@ explore: ad_impressions_ad {
   join: conversion {
     from: ad_impressions_ad_conversion_adapter
     view_label: "Conversions by Ad"
-    sql_on: ${fact.external_customer_id} = ${conversion.external_customer_id}
-      AND ${fact.campaign_id} = ${conversion.campaign_id}
+    sql_on:  ${fact.campaign_id} = ${conversion.campaign_id}
       AND ${fact.ad_group_id} = ${conversion.ad_group_id}
       AND ${fact.criterion_id} = ${conversion.criterion_id}
       AND ${fact.creative_id} = ${conversion.creative_id}
@@ -195,7 +194,6 @@ explore: ad_impressions_age_range {
     sql_on: ${fact.criterion_id} = ${criteria.criterion_id} AND
       ${fact.ad_group_id} = ${criteria.ad_group_id} AND
       ${fact.campaign_id} = ${criteria.campaign_id} AND
-      ${fact.external_customer_id} = ${criteria.external_customer_id} AND
       ${fact._date} = ${criteria._date} ;;
     relationship: many_to_one
   }
@@ -216,7 +214,6 @@ explore: ad_impressions_gender {
     sql_on: ${fact.criterion_id} = ${criteria.criterion_id} AND
       ${fact.ad_group_id} = ${criteria.ad_group_id} AND
       ${fact.campaign_id} = ${criteria.campaign_id} AND
-      ${fact.external_customer_id} = ${criteria.external_customer_id} AND
       ${fact._date} = ${criteria._date} ;;
     relationship: many_to_one
   }
@@ -237,7 +234,6 @@ explore: ad_impressions_audience {
     sql_on: ${fact.criterion_id} = ${criteria.criterion_id} AND
       ${fact.ad_group_id} = ${criteria.ad_group_id} AND
       ${fact.campaign_id} = ${criteria.campaign_id} AND
-      ${fact.external_customer_id} = ${criteria.external_customer_id} AND
       ${fact._date} = ${criteria._date} ;;
     relationship: many_to_one
   }
@@ -258,7 +254,6 @@ explore: ad_impressions_parental_status {
     sql_on: ${fact.criterion_id} = ${criteria.criterion_id} AND
       ${fact.ad_group_id} = ${criteria.ad_group_id} AND
       ${fact.campaign_id} = ${criteria.campaign_id} AND
-      ${fact.external_customer_id} = ${criteria.external_customer_id} AND
       ${fact._date} = ${criteria._date} ;;
     relationship: many_to_one
   }
@@ -279,7 +274,6 @@ explore: ad_impressions_video {
     sql_on: ${fact.video_id} = ${video.video_id} AND
       ${fact.ad_group_id} = ${video.ad_group_id} AND
       ${fact.campaign_id} = ${video.campaign_id} AND
-      ${fact.external_customer_id} = ${video.external_customer_id} AND
       ${fact._date} = ${video._date} ;;
     relationship: many_to_one
   }
@@ -296,10 +290,7 @@ explore: ad_join {
     from: ad
     view_label: "Ads"
     sql_on: ${fact.creative_id} = ${ad.creative_id} AND
-      ${fact.ad_group_id} = ${ad.ad_group_id} AND
-      ${fact.campaign_id} = ${ad.campaign_id} AND
-      ${fact.external_customer_id} = ${ad.external_customer_id} AND
-      ${fact._date} = ${ad._date} ;;
+      ${fact.ad_group_id} = ${ad.ad_group_id};;
     relationship:  many_to_one
   }
 }
@@ -310,9 +301,7 @@ explore: ad_group_join {
     from: ad_group
     view_label: "Ad Groups"
     sql_on: ${fact.ad_group_id} = ${ad_group.ad_group_id} AND
-      ${fact.campaign_id} = ${ad_group.campaign_id} AND
-      ${fact.external_customer_id} = ${ad_group.external_customer_id} AND
-      ${fact._date} = ${ad_group._date} ;;
+      ${fact.campaign_id} = ${ad_group.campaign_id};;
     relationship: many_to_one
   }
 }
@@ -322,7 +311,7 @@ explore: customer_join {
   join: customer {
     from: customer
     view_label: "Customer"
-    sql_on: ${fact.external_customer_id} = ${customer.external_customer_id} AND
+    sql_on:
       ${fact._date} = ${customer._date} ;;
     relationship: many_to_one
   }
@@ -336,7 +325,6 @@ explore: keyword_join {
     sql_on: ${fact.criterion_id} = ${keyword.criterion_id} AND
       ${fact.ad_group_id} = ${keyword.ad_group_id} AND
       ${fact.campaign_id} = ${keyword.campaign_id} AND
-      ${fact.external_customer_id} = ${keyword.external_customer_id} AND
       ${fact._date} = ${keyword._date} ;;
     relationship: many_to_one
   }
@@ -347,9 +335,7 @@ explore: campaign_join {
   join: campaign {
     from: campaign
     view_label: "Campaign"
-    sql_on: ${fact.campaign_id} = ${campaign.campaign_id} AND
-      ${fact.external_customer_id} = ${campaign.external_customer_id};;# AND
-     # ${fact._date} = ${campaign._date} ;;
+    sql_on: ${fact.campaign_id} = ${campaign.campaign_id};;
     relationship: many_to_one
   }
 }
@@ -366,24 +352,20 @@ explore: ad {
     from: ad_group
     view_label: "Ad Group"
     sql_on: ${ad.ad_group_id} = ${ad_group.ad_group_id} AND
-      ${ad.campaign_id} = ${ad_group.campaign_id} AND
-      ${ad.external_customer_id} = ${ad_group.external_customer_id} AND
+      ${ad.ad_group_id} = ${ad_group.ad_group_id} AND
       ${ad._date} = ${ad_group._date};;
     relationship: many_to_one
   }
   join: campaign {
     from: campaign
     view_label: "Campaign"
-    sql_on: ${ad.campaign_id} = ${campaign.campaign_id} AND
-      ${ad.external_customer_id} = ${campaign.external_customer_id};;# AND
-      #${ad._date} = ${campaign._date};;
+    sql_on: ${ad_group_id.campaign_id} = ${campaign.campaign_id} ;;
     relationship: many_to_one
   }
   join: customer {
     from: customer
     view_label: "Customer"
-    sql_on: ${ad.external_customer_id} = ${customer.external_customer_id} AND
-      ${ad._date} = ${customer._date} ;;
+    sql_on: ${ad._date} = ${customer._date} ;;
     relationship: many_to_one
   }
 }
@@ -397,16 +379,13 @@ explore: ad_group {
   join: campaign {
     from: campaign
     view_label: "Campaign"
-    sql_on: ${ad_group.campaign_id} = ${campaign.campaign_id} AND
-      ${ad_group.external_customer_id} = ${campaign.external_customer_id};;# AND
-     # ${ad_group._date} = ${campaign._date};;
+    sql_on: ${ad_group.campaign_id} = ${campaign.campaign_id};;
     relationship: many_to_one
   }
   join: customer {
     from: customer
     view_label: "Customer"
-    sql_on: ${ad_group.external_customer_id} = ${customer.external_customer_id} AND
-      ${ad_group._date} = ${customer._date} ;;
+    sql_on: ${ad_group._date} = ${customer._date} ;;
     relationship: many_to_one
   }
 }
@@ -416,13 +395,7 @@ explore: campaign {
   view_name: campaign
   hidden: yes
 
-  join: customer {
-    from: customer
-    view_label: "Customer"
-    sql_on: ${campaign.external_customer_id} = ${customer.external_customer_id};;# AND
-    #  ${campaign._date} = ${customer._date} ;;
-    relationship: many_to_one
-  }
+
 }
 explore: campaign_budget_date_fact {
   persist_with: adwords_etl_datagroup
@@ -431,19 +404,11 @@ explore: campaign_budget_date_fact {
   view_label: "Campaign Budget Date Fact"
   from: campaign_budget_date_fact
   view_name: fact
-  join: customer {
-    from: customer
-    view_label: "Customer"
-    sql_on: ${fact.external_customer_id} = ${customer.external_customer_id}
-      AND ${fact._date} = ${customer._date} ;;
-    relationship: many_to_one
-  }
+
   join: campaign {
     from: campaign
     view_label: "Campaign"
-    sql_on: ${fact.campaign_id} = ${campaign.campaign_id} AND
-      ${fact.external_customer_id} = ${campaign.external_customer_id};;# AND
-     # ${fact._date} = ${campaign._date} ;;
+    sql_on: ${fact.campaign_id} = ${campaign.campaign_id};;
     relationship: many_to_one
   }
 }
@@ -464,25 +429,16 @@ explore: keyword {
     view_label: "Ad Groups"
     sql_on: ${keyword.ad_group_id} = ${ad_group.ad_group_id} AND
       ${keyword.campaign_id} = ${ad_group.campaign_id} AND
-      ${keyword.external_customer_id} = ${ad_group.external_customer_id} AND
-      ${keyword._date} = ${ad_group._date} ;;
+       ${keyword._date} = ${ad_group._date} ;;
     relationship: many_to_one
   }
   join: campaign {
     from: campaign
     view_label: "Campaign"
-    sql_on: ${keyword.campaign_id} = ${campaign.campaign_id} AND
-      ${keyword.external_customer_id} = ${campaign.external_customer_id} ;;#AND
-     # ${keyword._date} = ${campaign._date};;
+    sql_on: ${keyword.campaign_id} = ${campaign.campaign_id};;
     relationship: many_to_one
   }
-  join: customer {
-    from: customer
-    view_label: "Customer"
-    sql_on: ${keyword.external_customer_id} = ${customer.external_customer_id} AND
-      ${keyword._date} = ${customer._date} ;;
-    relationship: many_to_one
-  }
+
 }
 explore: period_fact {
   extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
@@ -510,8 +466,7 @@ explore: period_fact {
       {% endif %}
       {% if (campaign._in_query or fact.campaign_id._in_query) or (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
         AND ${fact.campaign_id} = ${last_fact.campaign_id}
-      {% endif %}
-      AND ${fact.external_customer_id} = ${last_fact.external_customer_id} ;;
+      {% endif %};;
     relationship: one_to_one
   }
   join: parent_fact {
@@ -526,9 +481,7 @@ explore: period_fact {
       {% if (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
         AND ${fact.campaign_id} = ${parent_fact.campaign_id}
       {% endif %}
-      {% if (campaign._in_query or fact.campaign_id._in_query) or (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
-        AND ${fact.external_customer_id} = ${parent_fact.external_customer_id}
-      {% endif %} ;;
+ ;;
     relationship: many_to_one
   }
   join: total {

@@ -30,7 +30,6 @@ view: campaign_date_fact {
     datagroup_trigger: adwords_etl_datagroup
     explore_source: ad_impressions_campaign {
       column: _date { field: fact.date_date }
-      column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id {field: fact.campaign_id}
       column: clicks {field: fact.total_clicks }
       column: conversions {field: fact.total_conversions}
@@ -44,6 +43,6 @@ view: campaign_date_fact {
     hidden: yes
   }
   set: detail {
-    fields: [external_customer_id, campaign_id]
+    fields: [campaign_id]
   }
 }

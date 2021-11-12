@@ -3,8 +3,10 @@ include: "customer.view"
 view: campaign {
   extends: [adwords_config, google_adwords_base]
   derived_table: {
-  sql:SELECT
-      a.*,a.customer_id AS external_customer_id
+ datagroup_trigger: adwords_etl_datagroup
+
+ sql:SELECT
+      a.*
       FROM
       @{GOOGLE_ADS_SCHEMA}.CAMPAIGN_HISTORY a
       INNER JOIN (

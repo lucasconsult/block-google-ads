@@ -12,7 +12,6 @@ view: google_ads_ad_impressions {
     explore_source: ad_impressions_ad_group {
       column: _date { field: fact.date_date }
       column: channel { field: fact.ad_network_type }
-      column: account_id { field: fact.external_customer_id_string }
       column: account_name { field: customer.account_descriptive_name }
       column: campaign_id { field: fact.campaign_id_string }
       column: campaign_name { field: campaign.name }

@@ -101,7 +101,7 @@ view: keyword {
       label: "Google Search"
       url: "https://www.google.com/search?q={{ value | encode_uri}}"
     }
-    required_fields: [external_customer_id, campaign_id, ad_group_id, criterion_id]
+    required_fields: [ campaign_id, ad_group_id, criterion_id]
   }
 
   dimension: campaign_ad_group_keyword_combination {
