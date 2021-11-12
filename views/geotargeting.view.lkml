@@ -27,10 +27,7 @@ view: geotargeting {
     sql: ${TABLE}.Name ;;
   }
 
-  dimension: parent_id {
-    type: number
-    sql: ${TABLE}.Parent_ID ;;
-  }
+
 
   dimension: status {
     type: string
@@ -42,25 +39,6 @@ view: geotargeting {
     sql: ${TABLE}.Target_Type ;;
   }
 
-  dimension: is_us_state {
-    type: yesno
-    sql: ${country_code} = "US" AND ${target_type} = "State" ;;
-  }
 
-  dimension: state {
-    map_layer_name: us_states
-    type: string
-    sql: IF(${is_us_state}, ${name}, NULL) ;;
-  }
 
-  dimension: is_us_postal_code {
-    type: yesno
-    sql: ${country_code} = "US" AND ${target_type} = "Postal Code" ;;
-  }
-
-  dimension: postal_code {
-    map_layer_name: us_zipcode_tabulation_areas
-    type: string
-    sql: IF(${is_us_postal_code}, ${name}, NULL) ;;
-  }
 }
