@@ -2,7 +2,7 @@ include: "/views/base/ad_metrics_base.view"
 include: "/views/base/google_ad_metrics_base.view"
 
 view: date_fact {
-  extends: [ad_metrics_dimension_base, google_ad_metrics_dimension_base]
+  extends: [ad_metrics_base, google_ad_metrics_base]
 
   derived_table: {
     explore_source: ad_impressions {

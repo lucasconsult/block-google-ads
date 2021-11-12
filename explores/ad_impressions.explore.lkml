@@ -1,9 +1,9 @@
-include: "/views/**/*.view"
-
+include: "/views/*.view"
+include: "/views/*.view"
 # Daily Account Aggregation
 explore: ad_impressions {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_adapter]
+  extends: [customer_join]
   from: ad_impressions
   view_name: fact
   group_label: "Google Ads"
@@ -13,18 +13,17 @@ explore: ad_impressions {
 }
 explore: ad_impressions_daily {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_adapter]
+  extends: [customer_join]
   from: ad_impressions_daily
   view_name: fact
   group_label: "Google Ads"
   label: "AdWord Impressions by Day"
   view_label: "Impressions by Day"
   hidden: yes
-  extends: [ad_impressions_adapter]
 }
 explore: ad_impressions_campaign {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter]
+  extends: [customer_join, campaign_join]
   from: ad_impressions_campaign
   view_name: fact
   label: "AdWord Impressions by Campaign"
@@ -33,7 +32,7 @@ explore: ad_impressions_campaign {
 }
 explore: ad_impressions_campaign_daily {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter]
+  extends: [customer_join, campaign_join]
   from: ad_impressions_campaign_daily
   view_name: fact
   group_label: "Google Ads"
@@ -43,7 +42,7 @@ explore: ad_impressions_campaign_daily {
 }
 explore: ad_impressions_ad_group {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_ad_group
   view_name: fact
   group_label: "Google Ads"
@@ -52,8 +51,8 @@ explore: ad_impressions_ad_group {
   hidden: yes
 }
 explore: ad_impressions_ad_group_daily {
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
-  from: ad_impressions_ad_group_daily_adapter
+  extends: [customer_join, campaign_join, ad_group_join]
+  from: ad_impressions_ad_group_daily
   view_name: fact
   group_label: "Google AdWords"
   label: "AdWord Impressions by Ad Group"
@@ -62,7 +61,7 @@ explore: ad_impressions_ad_group_daily {
 }
 explore: ad_impressions_ad_group_hour {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_ad_group_hour
   view_name: fact
   group_label: "Google Ads"
@@ -72,7 +71,7 @@ explore: ad_impressions_ad_group_hour {
 }
 explore: ad_impressions_ad {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join, keyword_join, ad_join]
+  extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
   from: ad_impressions_ad
   view_name: fact
   group_label: "Block Adwords"
@@ -83,12 +82,12 @@ explore: ad_impressions_ad {
   join: conversion {
     from: ad_impressions_ad_conversion_adapter
     view_label: "Conversions by Ad"
-    sql_on: ${keyword.external_customer_id} = ${conversion.external_customer_id}
-      AND ${keyword.campaign_id} = ${conversion.campaign_id}
-      AND ${keyword.ad_group_id} = ${conversion.ad_group_id}
+    sql_on: ${fact.external_customer_id} = ${conversion.external_customer_id}
+      AND ${fact.campaign_id} = ${conversion.campaign_id}
+      AND ${fact.ad_group_id} = ${conversion.ad_group_id}
       AND ${fact.criterion_id} = ${conversion.criterion_id}
       AND ${fact.creative_id} = ${conversion.creative_id}
-      AND ${keyword._date} = ${conversion._date}
+      AND ${fact._date} = ${conversion._date}
       AND ${fact.slot} = ${conversion.slot}
       AND ${fact.is_negative} = ${conversion.is_negative}
       AND ${fact.device} = ${conversion.device}
@@ -99,7 +98,7 @@ explore: ad_impressions_ad {
 }
 explore: ad_impressions_keyword {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join, keyword_join]
+  extends: [customer_join, campaign_join, ad_group_join, keyword_join]
   from: ad_impressions_keyword
   view_name: fact
   group_label: "Google Ads"
@@ -109,7 +108,7 @@ explore: ad_impressions_keyword {
 }
 explore: ad_impressions_geo {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_adapter, campaign_join, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_geo
   view_name: fact
   group_label: "Google Ads"
@@ -182,7 +181,7 @@ explore: ad_impressions_geo {
 }
 explore: ad_impressions_age_range {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_age_range
   view_name: fact
   group_label: "Google Ads"
@@ -203,7 +202,7 @@ explore: ad_impressions_age_range {
 }
 explore: ad_impressions_gender {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_gender
   view_name: fact
   group_label: "Google Ads"
@@ -224,7 +223,7 @@ explore: ad_impressions_gender {
 }
 explore: ad_impressions_audience {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_audience
   view_name: fact
   group_label: "Google Ads"
@@ -245,7 +244,7 @@ explore: ad_impressions_audience {
 }
 explore: ad_impressions_parental_status {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_parental_status
   view_name: fact
   group_label: "Google Ads"
@@ -266,7 +265,7 @@ explore: ad_impressions_parental_status {
 }
 explore: ad_impressions_video {
   persist_with: adwords_etl_datagroup
-  extends: [ad_impressions_campaign_adapter, ad_group_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_video
   view_name: fact
   group_label: "Google Ads"
@@ -332,7 +331,7 @@ explore: keyword_join {
   extension: required
 
   join: keyword {
-    from: keyword_adapter
+    from: keyword
     view_label: "Keyword"
     sql_on: ${fact.criterion_id} = ${keyword.criterion_id} AND
       ${fact.ad_group_id} = ${keyword.ad_group_id} AND
@@ -349,31 +348,11 @@ explore: campaign_join {
     from: campaign
     view_label: "Campaign"
     sql_on: ${fact.campaign_id} = ${campaign.campaign_id} AND
-      ${fact.external_customer_id} = ${campaign.external_customer_id} AND
-      ${fact._date} = ${campaign._date} ;;
+      ${fact.external_customer_id} = ${campaign.external_customer_id};;# AND
+     # ${fact._date} = ${campaign._date} ;;
     relationship: many_to_one
   }
 }
-
-# Multi-Use Adapters
-explore: ad_impressions_adapter {
-  extends: [customer_join]
-  from: ad_impressions_adapter
-  view_name: fact
-  hidden: yes
-  group_label: "Google AdWords"
-  label: "AdWord Impressions"
-  view_label: "Impressions"
-}
-explore: ad_impressions_campaign_adapter {
-  extends: [ad_impressions_adapter, campaign_join]
-  from: ad_impressions_campaign_adapter
-  view_name: fact
-  group_label: "Google AdWords"
-  label: "AdWord Impressions by Campaign"
-  view_label: "Impressions by Campaign"
-}
-
 
 # Supplemental
 explore: ad {
@@ -396,8 +375,8 @@ explore: ad {
     from: campaign
     view_label: "Campaign"
     sql_on: ${ad.campaign_id} = ${campaign.campaign_id} AND
-      ${ad.external_customer_id} = ${campaign.external_customer_id} AND
-      ${ad._date} = ${campaign._date};;
+      ${ad.external_customer_id} = ${campaign.external_customer_id};;# AND
+      #${ad._date} = ${campaign._date};;
     relationship: many_to_one
   }
   join: customer {
@@ -419,8 +398,8 @@ explore: ad_group {
     from: campaign
     view_label: "Campaign"
     sql_on: ${ad_group.campaign_id} = ${campaign.campaign_id} AND
-      ${ad_group.external_customer_id} = ${campaign.external_customer_id} AND
-      ${ad_group._date} = ${campaign._date};;
+      ${ad_group.external_customer_id} = ${campaign.external_customer_id};;# AND
+     # ${ad_group._date} = ${campaign._date};;
     relationship: many_to_one
   }
   join: customer {
@@ -440,8 +419,8 @@ explore: campaign {
   join: customer {
     from: customer
     view_label: "Customer"
-    sql_on: ${campaign.external_customer_id} = ${customer.external_customer_id} AND
-      ${campaign._date} = ${customer._date} ;;
+    sql_on: ${campaign.external_customer_id} = ${customer.external_customer_id};;# AND
+    #  ${campaign._date} = ${customer._date} ;;
     relationship: many_to_one
   }
 }
@@ -455,16 +434,16 @@ explore: campaign_budget_date_fact {
   join: customer {
     from: customer
     view_label: "Customer"
-    sql_on: ${fact.external_customer_id} = ${customer.external_customer_id} AND
-      ${fact._date} = ${customer._date} ;;
+    sql_on: ${fact.external_customer_id} = ${customer.external_customer_id}
+      AND ${fact._date} = ${customer._date} ;;
     relationship: many_to_one
   }
   join: campaign {
     from: campaign
     view_label: "Campaign"
     sql_on: ${fact.campaign_id} = ${campaign.campaign_id} AND
-      ${fact.external_customer_id} = ${campaign.external_customer_id} AND
-      ${fact._date} = ${campaign._date} ;;
+      ${fact.external_customer_id} = ${campaign.external_customer_id};;# AND
+     # ${fact._date} = ${campaign._date} ;;
     relationship: many_to_one
   }
 }
@@ -476,7 +455,7 @@ explore: customer {
 }
 explore: keyword {
   persist_with: adwords_etl_datagroup
-  from: keyword_adapter
+  from: keyword
   view_name: keyword
   hidden: yes
 
@@ -493,8 +472,8 @@ explore: keyword {
     from: campaign
     view_label: "Campaign"
     sql_on: ${keyword.campaign_id} = ${campaign.campaign_id} AND
-      ${keyword.external_customer_id} = ${campaign.external_customer_id} AND
-      ${keyword._date} = ${campaign._date};;
+      ${keyword.external_customer_id} = ${campaign.external_customer_id} ;;#AND
+     # ${keyword._date} = ${campaign._date};;
     relationship: many_to_one
   }
   join: customer {

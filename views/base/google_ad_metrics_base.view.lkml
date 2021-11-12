@@ -1,12 +1,7 @@
 include: "ad_metrics_base.view"
 
 view: google_ad_metrics_base {
-  extends: [google_ad_metrics_base_template]
-}
-
-view: google_ad_metrics_dimension_base {
-  extension: required
-
+  extends: [ ad_metrics_base]
   dimension: interactions {
     hidden: yes
     type: number
@@ -16,13 +11,8 @@ view: google_ad_metrics_dimension_base {
   dimension: average_position {
     hidden: yes
     type: number
-    sql: ${TABLE}.AveragePosition ;;
+    sql: 0 ;;
   }
-}
-
-view: google_ad_metrics_base_template {
-  extension: required
-  extends: [ad_metrics_base, google_ad_metrics_dimension_base]
 
   measure: average_interaction_rate {
     label: "Interaction Rate"
@@ -57,7 +47,6 @@ view: google_ad_metrics_base_template {
     description: "Total ad interactions."
     type:  sum
     sql:  ${interactions} ;;
-    drill_fields: [external_customer_id, total_impressions]
     value_format_name: decimal_0
   }
 

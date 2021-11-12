@@ -1,40 +1,29 @@
 view: ad_metrics_base {
-  extends: [ad_metrics_base_template]
-}
-
-view: ad_metrics_dimension_base {
-  extension: required
-
   dimension: clicks {
     hidden: yes
     type: number
     sql: ${TABLE}.clicks ;;
   }
-
   dimension: conversions {
     hidden: yes
     type: number
     sql: ${TABLE}.conversions ;;
   }
-
   dimension: conversionvalue {
     hidden: yes
     type: number
     sql: ${TABLE}.conversionvalue ;;
   }
-
   dimension: cost {
     hidden: yes
     type: number
     sql: ${TABLE}.cost ;;
   }
-
   dimension: impressions {
     hidden: yes
     type: number
     sql: ${TABLE}.impressions ;;
   }
-
   dimension: click_rate {
     hidden: yes
     label: "Click Through Rate"
@@ -43,7 +32,6 @@ view: ad_metrics_dimension_base {
     sql: ${clicks}*1.0/nullif(${impressions},0) ;;
     value_format_name: percent_2
   }
-
   dimension: cost_per_conversion {
     hidden: yes
     label: "Cost per Conversion"
@@ -52,7 +40,6 @@ view: ad_metrics_dimension_base {
     sql: ${cost}*1.0 / NULLIF(${conversions},0) ;;
     value_format_name: usd
   }
-
   dimension: value_per_conversion {
     hidden: yes
     label: "Value per Conversion"
@@ -61,7 +48,6 @@ view: ad_metrics_dimension_base {
     sql: ${conversionvalue}*1.0 / NULLIF(${conversions},0) ;;
     value_format_name: usd
   }
-
   dimension: cost_per_click {
     hidden: yes
     label: "Cost per Click"
@@ -70,7 +56,6 @@ view: ad_metrics_dimension_base {
     sql: ${cost}*1.0 / NULLIF(${clicks},0) ;;
     value_format_name: usd
   }
-
   dimension: value_per_click {
     hidden: yes
     label: "Value per Click"
@@ -79,7 +64,6 @@ view: ad_metrics_dimension_base {
     sql: ${conversionvalue}*1.0 / NULLIF(${clicks},0) ;;
     value_format_name: usd
   }
-
   dimension: cost_per_impression {
     hidden: yes
     label: "CPM"
@@ -88,7 +72,6 @@ view: ad_metrics_dimension_base {
     sql: ${cost}*1.0 / NULLIF(${impressions},0) * 1000.0 ;;
     value_format_name: usd
   }
-
   dimension: value_per_impression {
     hidden: yes
     label: "Value per Impression"
@@ -97,7 +80,6 @@ view: ad_metrics_dimension_base {
     sql: ${conversionvalue}*1.0 / NULLIF(${impressions},0) ;;
     value_format_name: usd
   }
-
   dimension: value_per_cost {
     hidden: yes
     label: "ROAS"
@@ -106,7 +88,6 @@ view: ad_metrics_dimension_base {
     sql: ${conversionvalue}*1.0 / NULLIF(${cost},0) ;;
     value_format_name: percent_0
   }
-
   dimension: conversion_rate {
     hidden: yes
     label: "Conversion Rate"
@@ -115,12 +96,6 @@ view: ad_metrics_dimension_base {
     sql: ${conversions}*1.0 / NULLIF(${clicks},0) ;;
     value_format_name: percent_2
   }
-}
-
-view: ad_metrics_base_template {
-  extension: required
-  extends: [ad_metrics_dimension_base]
-
   measure: average_click_rate {
     label: "Click Through Rate"
     description: "Percent of people that click on an ad."
@@ -129,7 +104,6 @@ view: ad_metrics_base_template {
     value_format_name: percent_2
     drill_fields: [fact.date_date, campaign.name, average_click_rate]
   }
-
   measure: average_cost_per_conversion {
     label: "Cost per Conversion"
     description: "Cost per conversion."
@@ -138,7 +112,6 @@ view: ad_metrics_base_template {
     value_format_name: usd
     drill_fields: [fact.date_date, campaign.name, fact.total_conversions, fact.total_cost, fact.average_cost_per_conversion]
   }
-
   measure: average_cost_per_value {
     label: "Cost per value"
     description: "Cost per value."
@@ -147,7 +120,6 @@ view: ad_metrics_base_template {
     value_format_name: usd
     drill_fields: [fact.date_date, campaign.name, fact.total_conversionvalue, fact.total_cost, fact.average_cost_per_conversion]
   }
-
   measure: average_value_per_conversion {
     label: "Value per Conversion"
     description: "Average value per conversion."
@@ -155,7 +127,6 @@ view: ad_metrics_base_template {
     sql: ${total_conversionvalue}*1.0 / NULLIF(${total_conversions},0) ;;
     value_format_name: usd
   }
-
   measure: average_cost_per_click {
     label: "Cost per Click"
     description: "Average cost per ad click."
@@ -164,7 +135,6 @@ view: ad_metrics_base_template {
     value_format_name: usd
     drill_fields: [fact.date_date, campaign.name, average_cost_per_click]
   }
-
   measure: average_value_per_click {
     label: "Value per Click"
     description: "Average value per ad click."
@@ -172,7 +142,6 @@ view: ad_metrics_base_template {
     sql: ${total_conversionvalue}*1.0 / NULLIF(${total_clicks},0) ;;
     value_format_name: usd
   }
-
   measure: average_cost_per_impression {
     label: "CPM"
     description: "Average cost per ad impression viewed."
@@ -180,7 +149,6 @@ view: ad_metrics_base_template {
     sql: ${total_cost}*1.0 / NULLIF(${total_impressions},0) * 1000.0 ;;
     value_format_name: usd
   }
-
   measure: average_value_per_impression {
     label: "Value per Impression"
     description: "Average value per ad impression viewed."
@@ -188,7 +156,6 @@ view: ad_metrics_base_template {
     sql: ${total_conversionvalue}*1.0 / NULLIF(${total_impressions},0) ;;
     value_format_name: usd
   }
-
   measure: average_value_per_cost {
     label: "ROAS"
     description: "Average Return on Ad Spend."
@@ -196,7 +163,6 @@ view: ad_metrics_base_template {
     sql: ${total_conversionvalue}*1.0 / NULLIF(${total_cost},0) ;;
     value_format_name: percent_0
   }
-
   measure: average_conversion_rate {
     label: "Conversion Rate"
     description: "Percent of people that convert after they interact with an ad."
@@ -205,7 +171,6 @@ view: ad_metrics_base_template {
     value_format_name: percent_2
     drill_fields: [fact.date_date, campaign.name, average_conversion_rate]
   }
-
   measure: cumulative_spend {
     type: running_total
     sql: ${total_cost} ;;
@@ -213,7 +178,6 @@ view: ad_metrics_base_template {
     value_format_name: usd_0
     direction: "column"
   }
-
   measure: cumulative_conversions {
     type: running_total
     sql: ${total_conversions} ;;
@@ -221,7 +185,6 @@ view: ad_metrics_base_template {
     value_format_name: decimal_0
     direction: "column"
   }
-
   measure: total_clicks {
     label: "Clicks"
     description: "Total ad clicks."
@@ -230,7 +193,6 @@ view: ad_metrics_base_template {
     value_format_name: decimal_0
     drill_fields: [fact.date_date, campaign.name, total_clicks]
   }
-
   measure: total_conversions {
     label: "Conversions"
     description: "Total conversions."
@@ -239,7 +201,6 @@ view: ad_metrics_base_template {
     value_format_name: decimal_0
     drill_fields: [fact.date_date, campaign.name, total_conversions]
   }
-
   measure: total_conversionvalue {
     label: "Conv. Value"
     description: "Total conversion value."
@@ -247,7 +208,6 @@ view: ad_metrics_base_template {
     sql: ${conversionvalue} ;;
     value_format_name: usd_0
   }
-
   measure: total_cost {
     label: "Cost"
     description: "Total cost."
@@ -256,13 +216,11 @@ view: ad_metrics_base_template {
     value_format_name: usd_0
     drill_fields: [fact.date_date, campaign.name, total_cost]
   }
-
   measure: total_impressions {
     label: "Impressions"
     description: "Total ad impressions."
     type:  sum
     sql:  ${impressions} ;;
-    drill_fields: [external_customer_id, total_impressions]
     value_format_name: decimal_0
   }
 

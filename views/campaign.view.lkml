@@ -2,8 +2,20 @@ include: "customer.view"
 
 view: campaign {
   extends: [adwords_config, google_adwords_base]
-  sql_table_name: {{ campaign.adwords_schema._sql }}.campaign ;;
-
+  derived_table: {
+  sql:SELECT
+      a.*,a.customer_id AS external_customer_id
+      FROM
+      @{GOOGLE_ADS_SCHEMA}.CAMPAIGN_HISTORY a
+      INNER JOIN (
+      SELECT
+      ID,
+      MAX(UPDATED_AT) AS LATEST_RECORD
+      FROM @{GOOGLE_ADS_SCHEMA}.CAMPAIGN_HISTORY
+      GROUP BY 1) b
+      ON a.ID = b.ID
+      AND a.UPDATED_AT = b.LATEST_RECORD;;
+}
   dimension: advertising_channel_sub_type {
     hidden: yes
     type: string
@@ -57,7 +69,7 @@ view: campaign {
   dimension: campaign_id {
     hidden: yes
     type: number
-    sql: ${TABLE}.campaign_id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: campaign_mobile_bid_modifier {
@@ -68,7 +80,7 @@ view: campaign {
 
   dimension: name {
     type: string
-    sql: ${TABLE}.campaign_name ;;
+    sql: ${TABLE}.name ;;
     link: {
       label: "Campaign Dashboard"
       url: "/dashboards/marketing_analytics::campaign_metrics_cost_per_conversion?Campaign={{ value | encode_uri }}"
@@ -89,7 +101,7 @@ view: campaign {
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       label: "Change Budget"
     }
-    required_fields: [external_customer_id, campaign_id]
+    required_fields: [ campaign_id]
   }
 
   dimension: campaign_status {
