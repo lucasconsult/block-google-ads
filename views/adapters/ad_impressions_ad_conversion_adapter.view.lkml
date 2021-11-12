@@ -1,7 +1,7 @@
 include: "/views/*/*.view"
 include: "/views/*.view"
 view: ad_impressions_ad_conversion_adapter {
-  extends: [ google_adwords_base, transformations_base, ad_metrics_conversion_base_adapter]
+  extends: [ google_adwords_base,  ad_metrics_conversion_base_adapter]
   sql_table_name: @{GOOGLE_ADS_SCHEMA}.ad_conversion_stats ;;
 
   dimension: ad_conversion_primary_key {

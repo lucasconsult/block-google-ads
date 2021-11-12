@@ -1,9 +1,30 @@
-include: "/views/*/*.view"
-include: "/views/*.view"
-view: ad_impressions_adapter_base {
-  extension: required
-  extends: [ google_adwords_base,  google_ad_metrics_base]
+include: "/views/**/*.view"
 
+view: ad_impressions_campaign_daily {
+  extends: [date_base, period_base, google_ad_metrics_base, google_adwords_base]
+  sql_table_name: {{ fact.adwords_schema._sql }}.campaign_stats ;;
+
+  dimension: primary_key {
+    primary_key: yes
+    hidden: yes
+    sql: concat(${campaign_primary_key}, "|", ${date_string}) ;;
+  }
+  dimension: campaign_primary_key {
+    hidden: yes
+    sql: concat(${account_primary_key}, "|", ${campaign_id_string}) ;;
+  }
+  dimension: base_campaign_id {
+    hidden: yes
+    sql: ${TABLE}.base_campaign_id ;;
+  }
+  dimension: campaign_id {
+    hidden: yes
+    sql: ${TABLE}.campaign_id ;;
+  }
+  dimension: campaign_id_string {
+    hidden: yes
+    sql: CAST(${TABLE}.campaign_id as STRING) ;;
+  }
   dimension: account_primary_key {
     hidden: yes
     sql: concat(
@@ -11,11 +32,6 @@ view: ad_impressions_adapter_base {
       ${ad_network_type1},  "|",
       ${ad_network_type2}, "|",
       ${device}) ;;
-  }
-  dimension: primary_key {
-    primary_key: yes
-    hidden: yes
-    sql: ${account_primary_key} ;;
   }
   dimension: active_view_impressions {
     hidden: yes
@@ -42,7 +58,16 @@ view: ad_impressions_adapter_base {
     type: number
     sql: ${TABLE}.active_view_viewability ;;
   }
-
+  dimension: ad_network_type1 {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.ad_network_type_1 ;;
+  }
+  dimension: ad_network_type2 {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.ad_network_type_2 ;;
+  }
   dimension: clicks {
     hidden: yes
     type: number

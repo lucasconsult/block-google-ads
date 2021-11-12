@@ -1,9 +1,8 @@
-include: "adwords_config.view"
-include: "base/google_adwords_base.view"
-
+include: "/views/*/*.view"
+include: "/views/*.view"
 view: keyword {
-  extends: [adwords_config, google_adwords_base]
-  sql_table_name: {{ keyword.adwords_schema._sql }}.keyword ;;
+  extends: [ google_adwords_base]
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.keyword ;;
 
   dimension: ad_group_id {
     sql: ${TABLE}.ad_group_id ;;

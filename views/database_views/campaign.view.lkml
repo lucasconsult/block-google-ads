@@ -1,7 +1,8 @@
 include: "customer.view"
-
+include: "/views/*/*.view"
+include: "/views/*.view"
 view: campaign {
-  extends: [adwords_config, google_adwords_base]
+  extends: [ google_adwords_base]
   derived_table: {
  datagroup_trigger: adwords_etl_datagroup
 

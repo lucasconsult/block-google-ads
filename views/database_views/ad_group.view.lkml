@@ -1,7 +1,8 @@
 include: "campaign.view"
-
+include: "/views/*/*.view"
+include: "/views/*.view"
 view: ad_group {
-  extends: [google_adwords_base, adwords_config]
+  extends: [google_adwords_base]
   derived_table: {
     datagroup_trigger: adwords_etl_datagroup
 

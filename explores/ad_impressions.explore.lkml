@@ -59,16 +59,6 @@ explore: ad_impressions_ad_group_daily {
   view_label: "Impressions by Ad Group"
   hidden: yes
 }
-explore: ad_impressions_ad_group_hour {
-  persist_with: adwords_etl_datagroup
-  extends: [customer_join, campaign_join, ad_group_join]
-  from: ad_impressions_ad_group_hour
-  view_name: fact
-  group_label: "Google Ads"
-  label: "AdWord Impressions by Ad Group & Hour"
-  view_label: "Impressions by Ad Group & Hour"
-  hidden: yes
-}
 explore: ad_impressions_ad {
   persist_with: adwords_etl_datagroup
   extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
