@@ -1,18 +1,9 @@
 # Google Ads Block
+## What Does This Block Do For Me? ##
 
-THIS BLOCK IS DEPRECATED AS OF 4/2/2021.
+This block contains views, explores and dashboards used for analysis in Looker of exported Google Ads data. It is modeled on the schema from Fivetrans's [Google Ads ETL](https://fivetran.com/directory/google-ads) brought over with Looker-specific connector (https://fivetran.com/integrations/adwords_for_looker).
+The schema documentation for Ads can be found in [Google's docs](https://developers.google.com/adwords/api/docs/appendix/reports).
 
-This repository contains views and explores used for the Google Ads Block dashboards.
-There are 5 dashboards that come with this block: Google Ads Overview, Google Ads - Clicks,
-Google Ads - Conversions, Google Ads - Impressions and Google Ads - Spend. Each of the dashboards
-provides in-depth analysis of ad/campaign performance over a given timeframe.
-
-This project is remotely included through the Google Ads Block Config project.
-To pull updates from this project, update the `ref:` parameter in the manifest file. It should point to the latest commit
-in [block-google-ads](https://github.com/looker/block-google-ads/commits/master).
-
-The LookML constants are used to specify the name of the schema and connection. They are defined in the Google Ads
-Block Config project.
 #### Account Structure
 
 ad.view:
@@ -102,8 +93,13 @@ Targeting Reports
  - ad_impressions * [age_range, audience, gender, geo, parental_status, video]
 
 
-### Block Info
+## Installation ##
+This block is installed via the Looker Marketplace. For more information about the Looker Marketplace, please visit this [link](https://docs.looker.com/data-modeling/marketplace).
 
-This Block is modeled on the schema from Fivetrans's [Google Ads ETL](https://fivetran.com/directory/google-ads) brought over with Looker-specific connector (https://fivetran.com/integrations/adwords_for_looker).
+#### Constants ####
+During installation you will provide two values to populate the following constants:
+* Connection Name - the Looker connection with access to and permission to retrieve data from your Google Ads tables.
+* Google Ads Schema - the schema name for your exported Google Ads data.
 
-The schema documentation for Ads can be found in [Google's docs](https://developers.google.com/adwords/api/docs/appendix/reports).
+#### Customization ####
+- This block uses Refinements to allow for modification or extension of the LookML content. For more information on using refinements to customize marketplace blocks, please see [this documentation](https://docs.looker.com/data-modeling/marketplace/customize-blocks).
