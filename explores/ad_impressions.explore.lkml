@@ -61,7 +61,7 @@ explore: ad_impressions_ad_group_daily {
 }
 explore: ad_impressions_ad {
   persist_with: adwords_etl_datagroup
-  extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
+  extends: [customer_join, campaign_join, ad_group_join, ad_join]
   from: ad_impressions_ad
   view_name: fact
   group_label: "Block Adwords"
@@ -87,7 +87,7 @@ explore: ad_impressions_ad {
 }
 explore: ad_impressions_keyword {
   persist_with: adwords_etl_datagroup
-  extends: [customer_join, campaign_join, ad_group_join, keyword_join]
+  extends: [customer_join, campaign_join, ad_group_join]
   from: ad_impressions_keyword
   view_name: fact
   group_label: "Google Ads"
@@ -154,19 +154,7 @@ explore: customer_join {
     relationship: many_to_one
   }
 }
-explore: keyword_join {
-  extension: required
 
-  join: keyword {
-    from: keyword
-    view_label: "Keyword"
-    sql_on: ${fact.criterion_id} = ${keyword.criterion_id} AND
-      ${fact.ad_group_id} = ${keyword.ad_group_id} AND
-      ${fact.campaign_id} = ${keyword.campaign_id} AND
-      ${fact._date} = ${keyword._date} ;;
-    relationship: many_to_one
-  }
-}
 explore: campaign_join {
   extension: required
 
@@ -256,30 +244,9 @@ explore: customer {
   view_name: customer
   hidden: yes
 }
-explore: keyword {
-  persist_with: adwords_etl_datagroup
-  from: keyword
-  view_name: keyword
-  hidden: yes
 
-  join: ad_group {
-    from: ad_group
-    view_label: "Ad Groups"
-    sql_on: ${keyword.ad_group_id} = ${ad_group.ad_group_id} AND
-      ${keyword.campaign_id} = ${ad_group.campaign_id} AND
-       ${keyword._date} = ${ad_group._date} ;;
-    relationship: many_to_one
-  }
-  join: campaign {
-    from: campaign
-    view_label: "Campaign"
-    sql_on: ${keyword.campaign_id} = ${campaign.campaign_id};;
-    relationship: many_to_one
-  }
-
-}
 explore: period_fact {
-  extends: [customer_join, campaign_join, ad_group_join, keyword_join, ad_join]
+  extends: [customer_join, campaign_join, ad_group_join,  ad_join]
   persist_with: adwords_etl_datagroup
   from: period_fact
   view_name: fact
@@ -294,14 +261,12 @@ explore: period_fact {
       AND ${fact.date_day_of_period} = ${last_fact.date_day_of_period}
       {% if (ad._in_query or fact.creative_id._in_query) %}
         AND ${fact.creative_id} = ${last_fact.creative_id}
+
       {% endif %}
-      {% if (keyword._in_query or fact.criterion_id._in_query) or (ad._in_query or fact.creative_id._in_query) %}
-        AND ${fact.criterion_id} = ${last_fact.criterion_id}
-      {% endif %}
-      {% if (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
+      {% if (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query )  %}
         AND ${fact.ad_group_id} = ${last_fact.ad_group_id}
       {% endif %}
-      {% if (campaign._in_query or fact.campaign_id._in_query) or (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
+      {% if (campaign._in_query or fact.campaign_id._in_query) or (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query)  %}
         AND ${fact.campaign_id} = ${last_fact.campaign_id}
       {% endif %};;
     relationship: one_to_one
@@ -312,10 +277,10 @@ explore: period_fact {
     sql_on:
       ${fact.date_period} = ${parent_fact.date_period}
       AND ${fact.date_day_of_period} = ${last_fact.date_day_of_period}
-      {% if (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
+      {% if (ad._in_query)  %}
         AND ${fact.ad_group_id} = ${parent_fact.ad_group_id}
       {% endif %}
-      {% if (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query or fact.creative_id._in_query) or (keyword._in_query or fact.criterion_id._in_query) %}
+      {% if (ad_group._in_query or fact.ad_group_id._in_query) or (ad._in_query )  %}
         AND ${fact.campaign_id} = ${parent_fact.campaign_id}
       {% endif %}
  ;;

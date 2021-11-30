@@ -1,5 +1,4 @@
 include: "../base/google_adwords_base.view"
-include: "adwords_config.view"
 include: "/views/*/*.view"
 include: "/views/*.view"
 view: customer {

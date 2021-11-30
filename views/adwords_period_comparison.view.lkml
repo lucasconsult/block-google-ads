@@ -33,8 +33,7 @@ view: period_fact {
   sql_table_name:
   {% if (ad._in_query or fact.creative_id._in_query) %}
     ${ad_date_fact.SQL_TABLE_NAME}
-  {% elsif (keyword._in_query or fact.criterion_id._in_query) %}
-    ${keyword_date_fact.SQL_TABLE_NAME}
+
   {% elsif (ad_group._in_query or fact.ad_group_id._in_query) %}
     ${ad_group_date_fact.SQL_TABLE_NAME}
   {% elsif (campaign._in_query or fact.campaign_id._in_query) %}
@@ -47,43 +46,40 @@ view: period_fact {
       hidden: yes
       sql:
       {% if _dialect._name == 'snowflake' %}
-          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             || '-' || TO_CHAR(${campaign_id})
           {% endif %}
-          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             || '-' || TO_CHAR(${ad_group_id})
           {% endif %}
           {% if (ad._in_query or fact.creative_id._in_query) %}
             || '-' || TO_CHAR(${creative_id})
-          {% elsif (keyword._in_query or fact.criterion_id._in_query) %}
-            || '-' || TO_CHAR(${criterion_id})
+
           {% endif %}
       {% elsif _dialect._name == 'redshift' %}
 
-          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             || '-' || CAST(${campaign_id} AS VARCHAR)
           {% endif %}
-          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             || '-' || CAST(${ad_group_id} AS VARCHAR)
           {% endif %}
-          {% if (ad._in_query or fact.creative_id._in_query) %}
+          {% if (ad._in_query ) %}
             '-' || CAST(${creative_id} AS VARCHAR)
-          {% elsif (keyword._in_query or fact.criterion_id._in_query) %}
-            || '-' || CAST(${criterion_id} AS VARCHAR)
+
           {% endif %}
       {% else %}
         CONCAT(
 
-          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (campaign._in_query or fact.campaign_id._in_query or ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             ,"-", CAST(${campaign_id} AS STRING)
           {% endif %}
-          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query or fact.creative_id._in_query or keyword._in_query or fact.criterion_id._in_query) %}
+          {% if (ad_group._in_query or fact.ad_group_id._in_query or ad._in_query ) %}
             ,"-", CAST(${ad_group_id} AS STRING)
           {% endif %}
           {% if (ad._in_query or fact.creative_id._in_query) %}
             ,"-", CAST(${creative_id} AS STRING)
-          {% elsif (keyword._in_query or fact.criterion_id._in_query) %}
-            ,"-", CAST(${criterion_id} AS STRING)
+
           {% endif %}
         )
           {% endif %}
