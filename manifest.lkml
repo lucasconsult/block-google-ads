@@ -1,8 +1,7 @@
 project_name: "block-google-ads"
 
 constant: CONNECTION_NAME {
-  value: "4mile_snowflake_db_fivetran"
-  # value: "looker_app_2"
+  value: "looker_app_2"
   export: override_optional
 }
 

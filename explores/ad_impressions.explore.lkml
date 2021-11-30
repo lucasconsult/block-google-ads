@@ -29,6 +29,7 @@ explore: ad_impressions_campaign {
   label: "AdWord Impressions by Campaign"
   view_label: "Impressions by Campaign"
   group_label: "Block Adwords"
+  hidden: yes
 }
 explore: ad_impressions_campaign_daily {
   persist_with: adwords_etl_datagroup
@@ -68,7 +69,6 @@ explore: ad_impressions_ad {
   label: "AdWord Impressions by Ad"
   view_label: "Impressions by Ad"
   hidden: no
-
   join: conversion {
     from: ad_impressions_ad_conversion_adapter
     view_label: "Conversions by Ad"
@@ -104,7 +104,6 @@ explore: ad_impressions_geo {
   label: "AdWord Impressions by Geo"
   view_label: "Impressions by Geo"
   hidden: yes
-
   join: geo_country {
     from: geotargeting
     view_label: "Country"
@@ -114,16 +113,9 @@ explore: ad_impressions_geo {
   }
 }
 
-
-
-
-
-
-
 # Multi-Use Joins
 explore: ad_join {
   extension: required
-
   join: ad {
     from: ad
     view_label: "Ads"
@@ -134,7 +126,6 @@ explore: ad_join {
 }
 explore: ad_group_join {
   extension: required
-
   join: ad_group {
     from: ad_group
     view_label: "Ad Groups"
@@ -145,7 +136,6 @@ explore: ad_group_join {
 }
 explore: customer_join {
   extension: required
-
   join: customer {
     from: customer
     view_label: "Customer"
@@ -154,10 +144,8 @@ explore: customer_join {
     relationship: many_to_one
   }
 }
-
 explore: campaign_join {
   extension: required
-
   join: campaign {
     from: campaign
     view_label: "Campaign"
@@ -173,7 +161,6 @@ explore: ad {
   from: ad
   view_name: ad
   hidden: yes
-
   join: ad_group {
     from: ad_group
     view_label: "Ad Group"
@@ -201,7 +188,6 @@ explore: ad_group {
   from: ad_group
   view_name: ad_group
   hidden: yes
-
   join: campaign {
     from: campaign
     view_label: "Campaign"
@@ -220,8 +206,6 @@ explore: campaign {
   from: campaign
   view_name: campaign
   hidden: yes
-
-
 }
 explore: campaign_budget_date_fact {
   persist_with: adwords_etl_datagroup
@@ -230,7 +214,6 @@ explore: campaign_budget_date_fact {
   view_label: "Campaign Budget Date Fact"
   from: campaign_budget_date_fact
   view_name: fact
-
   join: campaign {
     from: campaign
     view_label: "Campaign"
@@ -250,6 +233,7 @@ explore: period_fact {
   persist_with: adwords_etl_datagroup
   from: period_fact
   view_name: fact
+  group_label: "Block Adwords"
   label: "Adwords Period Comparison"
   view_label: "This Period"
 
