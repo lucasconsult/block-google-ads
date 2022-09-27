@@ -10,7 +10,9 @@ constant: GOOGLE_ADS_SCHEMA {
   export: override_optional
 }
 
-constant: GOOGLE_ADS_SCHEMA {
+constant: GOOGLE_ADS_CUSTOMER_ID {
   value: "4501760809"
   export: override_optional
 }
+
+new_lookml_runtime: no

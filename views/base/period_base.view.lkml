@@ -25,7 +25,7 @@ view: period_base {
   dimension: date_range_difference {
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_end_date_range}, ${date_start_date_range}) ;;
+    sql: DATE_DIFF(${date_start_date_range},${date_end_date_range}, day) ;;
 #     expression: diff_days(${date_end_date_range}, ${date_start_date_range}) ;;
   }
 
@@ -46,7 +46,7 @@ view: period_base {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_range_day_of_range_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_range_day_of_range_prior} AS INT64) day) ;;
 #     expression: add_days(-1 * ${date_range_difference}, ${date_date}) ;;
   }
 
@@ -116,16 +116,16 @@ view: period_base {
     label_from_parameter: period
     group_label: "Event"
     sql: ({% if fact.period._parameter_value contains "day" %}
-        {% if fact.period._parameter_value == "'7 day'" %}DATEADD('day',7,${date_period})
-        {% elsif fact.period._parameter_value == "'28 day'" %}DATEADD('day',28,${date_period})
-        {% elsif fact.period._parameter_value == "'91 day'" %}DATEADD('day',91,${date_period})
-        {% elsif fact.period._parameter_value == "'364 day'" %}DATEADD('day',364,${date_period})
-        {% else %}DATEADD('day',1,${date_date})
+        {% if fact.period._parameter_value == "'7 day'" %}DATE_ADD(${date_period}, interval 7 day)
+        {% elsif fact.period._parameter_value == "'28 day'" %}DATE_ADD(${date_period}, interval 28 day)
+        {% elsif fact.period._parameter_value == "'91 day'" %}DATE_ADD(${date_period}, interval 91 day)
+        {% elsif fact.period._parameter_value == "'364 day'" %}DATE_ADD(${date_period}, interval 364 day)
+        {% else %}DATE_ADD(${date_date}, interval 1 day)
         {% endif %}
-        {% elsif fact.period._parameter_value contains "week" %}DATEADD('week',1,${date_period})
-        {% elsif fact.period._parameter_value contains "month" %}DATEADD('month',1,${date_period})
-        {% elsif fact.period._parameter_value contains "quarter" %}DATEADD('quarter',1,${date_period})
-        {% elsif fact.period._parameter_value contains "year" %}DATEADD('year',1,${date_period})
+        {% elsif fact.period._parameter_value contains "week" %}DATE_ADD(${date_period}, interval 7 day)
+        {% elsif fact.period._parameter_value contains "month" %}DATE_ADD(${date_period}, interval 1 month)
+        {% elsif fact.period._parameter_value contains "quarter" %}DATE_ADD(${date_period}, interval 1 quarter)
+        {% elsif fact.period._parameter_value contains "year" %}DATE_ADD(${date_period}, interval 1 year)
         {% endif %}) ;;
     allow_fill: no
   }
@@ -148,16 +148,16 @@ view: period_base {
     group_label: "Event"
     sql: ${date_period} >=
       {% if period._parameter_value contains "day" %}
-        {% if period._parameter_value == "'7 day'" %}DATEADD('day',-2*7,CURRENT_DATE())
-        {% elsif period._parameter_value == "'28 day'" %}DATEADD('day',-2*28,CURRENT_DATE())
-        {% elsif period._parameter_value == "'91 day'" %}DATEADD('day',-2*91,CURRENT_DATE())
-        {% elsif period._parameter_value == "'364 day'" %}DATEADD('day',-2*364,CURRENT_DATE())
-        {% else %}DATEADD('day',-2*1,CURRENT_DATE())
+        {% if period._parameter_value == "'7 day'" %}DATE_ADD(CURRENT_DATE(), interval -2*7 day)
+        {% elsif period._parameter_value == "'28 day'" %}DATE_ADD(CURRENT_DATE(), interval -2*28 day)
+        {% elsif period._parameter_value == "'91 day'" %}DATE_ADD(CURRENT_DATE(), interval -2*91 day)
+        {% elsif period._parameter_value == "'364 day'" %}DATE_ADD(CURRENT_DATE(), interval -2*364 day)
+        {% else %}DATE_ADD(CURRENT_DATE(), interval -2*1 day)
         {% endif %}
-      {% elsif period._parameter_value contains "week" %}DATEADD('week',2,${date_period})
-      {% elsif period._parameter_value contains "month" %}DATEADD('month',2,${date_period})
-      {% elsif period._parameter_value contains "quarter" %}DATEADD('quarter',2,${date_period})
-      {% elsif period._parameter_value contains "year" %}DATEADD('year',2,${date_period})
+      {% elsif period._parameter_value contains "week" %}DATE_ADD(${date_period}, interval 14 day)
+      {% elsif period._parameter_value contains "month" %}DATE_ADD(${date_period}, interval 2 month)
+      {% elsif period._parameter_value contains "quarter" %}DATE_ADD(${date_period}, interval 1 quarter)
+      {% elsif period._parameter_value contains "year" %}DATE_ADD(${date_period}, interval 2 year)
       {% endif %} ;;
   }
   dimension: date_period_dynamic_grain {
@@ -207,17 +207,20 @@ view: period_base {
       label: "Prior Period"
       type: date
       convert_tz: no
-      sql: DATEADD(        {% if fact.period._parameter_value contains "day" %}'day'
-        {% elsif fact.period._parameter_value contains "week" %}'week'
-        {% elsif fact.period._parameter_value contains "month" %}'month'
-        {% elsif fact.period._parameter_value contains "quarter" %}'quarter'
-        {% elsif fact.period._parameter_value contains "year" %}'year'
-        {% endif %},-{% if fact.period._parameter_value == "'7 day'" %}7
-        {% elsif fact.period._parameter_value == "'28 day'" %}28
-        {% elsif fact.period._parameter_value == "'91 day'" %}91
-        {% elsif fact.period._parameter_value == "'364 day'" %}364
-        {% else %}1
-        {% endif %},${date_period}) ;;
+      sql: DATE_ADD(${date_period}, interval
+        -{% if fact.period._parameter_value == "'7 day'" %}' 7 '
+        {% elsif fact.period._parameter_value == "'28 day'" %}' 28 '
+        {% elsif fact.period._parameter_value == "'91 day'" %}' 91 '
+        {% elsif fact.period._parameter_value == "'364 day'" %}' 364 '
+        {% else %}' 1'
+        {% endif %}
+        {% if fact.period._parameter_value contains "day" %}day
+        {% elsif fact.period._parameter_value contains "week" %}week
+        {% elsif fact.period._parameter_value contains "month" %}month
+        {% elsif fact.period._parameter_value contains "quarter" %}quarter
+        {% elsif fact.period._parameter_value contains "year" %}year
+        {% endif %}
+        ) ;;
       allow_fill: no
     }
   }

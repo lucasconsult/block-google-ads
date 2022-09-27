@@ -63,7 +63,7 @@ view: date_base {
     label: "Day of Quarter"
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_date}, ${date_quarter_date})  ;;
+    sql: DATE_DIFF(${date_quarter_date},${date_date}, day)  ;;
   }
 
   dimension: date_last_week {
@@ -72,7 +72,7 @@ view: date_base {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('week',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 7 day) ;;
   }
 
   dimension: date_last_month {
@@ -81,7 +81,7 @@ view: date_base {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('month',1,${date_date});;
+    sql: DATE_ADD(${date_date}, interval 1 month);;
   }
 
   dimension: date_last_quarter {
@@ -90,48 +90,48 @@ view: date_base {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('quarter',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 quarter) ;;
   }
 
   dimension: date_next_week {
     hidden: yes
     type: date
     convert_tz: no
-    sql:  DATEADD('week',1,${date_date}) ;;
+    sql:  DATE_ADD(${date_date}, interval 7 day) ;;
   }
 
   dimension: date_next_month {
     hidden: yes
     type: date
     convert_tz: no
-    sql:  DATEADD('month',1,${date_date}) ;;
+    sql:  DATE_ADD(${date_date}, interval 1 month) ;;
   }
 
   dimension: date_next_quarter {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('quarter',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 quarter) ;;
   }
 
   dimension: date_next_year {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('year',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 year) ;;
   }
 
   dimension: date_last_year {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('year',-1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -1 year) ;;
   }
 
   dimension: date_days_prior {
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_date}, CURRENT_DATE()) ;;
+    sql: DATE_DIFF(CURRENT_DATE(),${date_date}, day) ;;
   }
 
   dimension: date_day_of_7_days_prior {
@@ -162,28 +162,28 @@ view: date_base {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_7_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_7_days_prior} AS INT64) day) ;;
   }
 
   dimension: date_date_28_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_28_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_28_days_prior} AS INT64) day) ;;
   }
 
   dimension: date_date_91_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_91_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_91_days_prior} AS INT64) day) ;;
   }
 
   dimension: date_date_364_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_364_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_364_days_prior} AS INT64) day) ;;
   }
 
 }

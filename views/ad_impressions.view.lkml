@@ -122,7 +122,7 @@ view: ad_impressions {
     label: "Day of Quarter"
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_date}, ${date_quarter_date})  ;;
+    sql: DATE_DIFF(${date_quarter_date},${date_date}, day)  ;;
   }
   dimension: date_last_week {
     group_label: "Event"
@@ -130,7 +130,7 @@ view: ad_impressions {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('week',-1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 7 day) ;;
   }
   dimension: date_last_month {
     group_label: "Event"
@@ -138,7 +138,7 @@ view: ad_impressions {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('month',-1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 month) ;;
   }
   dimension: date_last_quarter {
     group_label: "Event"
@@ -146,42 +146,42 @@ view: ad_impressions {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('quarter',-1,${date_date});;
+    sql: DATE_ADD(${date_date}, interval 1 quarter);;
   }
   dimension: date_next_week {
     hidden: yes
     type: date
     convert_tz: no
-    sql:  DATEADD('week',1,${date_date}) ;;
+    sql:  DATE_ADD(${date_date}, interval 7 day) ;;
   }
   dimension: date_next_month {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('month',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 month) ;;
   }
   dimension: date_next_quarter {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('quarter',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 quarter) ;;
   }
   dimension: date_next_year {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('year',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 year) ;;
   }
   dimension: date_last_year {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('year',1,${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval 1 year) ;;
   }
   dimension: date_days_prior {
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_date}, CURRENT_DATE()) ;;
+    sql: DATE_DIFF(CURRENT_DATE(),${date_date}, day) ;;
   }
   dimension: date_day_of_7_days_prior {
     hidden: yes
@@ -207,25 +207,25 @@ view: ad_impressions {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_7_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_7_days_prior} AS INT64) day) ;;
   }
   dimension: date_date_28_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_28_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_28_days_prior} AS INT64) day) ;;
   }
   dimension: date_date_91_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_91_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_91_days_prior} AS INT64) day) ;;
   }
   dimension: date_date_364_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_day_of_364_days_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_364_days_prior} AS INT64) day) ;;
   }
   dimension: date_start_date_range {
     hidden: yes
@@ -242,7 +242,7 @@ view: ad_impressions {
   dimension: date_range_difference {
     hidden: yes
     type: number
-    sql: DATEDIFF('day',${date_end_date_range}, ${date_start_date_range}) ;;
+    sql: DATE_DIFF(${date_start_date_range},${date_end_date_range}, day) ;;
   }
   dimension: in_date_range {
     hidden: yes
@@ -258,7 +258,7 @@ view: ad_impressions {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATEADD('day',-${date_range_day_of_range_prior},${date_date}) ;;
+    sql: DATE_ADD(${date_date}, interval CAST(-${date_range_day_of_range_prior} AS INT64) day) ;;
   }
   dimension: date_period {
     type: date
@@ -285,16 +285,16 @@ view: ad_impressions {
     label_from_parameter: period
     group_label: "Event"
     sql: ({% if fact.period._parameter_value contains "day" %}
-        {% if fact.period._parameter_value == "'7 day'" %}DATEADD('day',7,${date_period})
-        {% elsif fact.period._parameter_value == "'28 day'" %}DATEADD('day',28,${date_period})
-        {% elsif fact.period._parameter_value == "'91 day'" %}DATEADD('day',91,${date_period})
-        {% elsif fact.period._parameter_value == "'364 day'" %}DATEADD('day',364,${date_period})
-        {% else %}DATEADD('day',1,${date_date})
+        {% if fact.period._parameter_value == "'7 day'" %}DATE_ADD(${date_period}, interval 7 day)
+        {% elsif fact.period._parameter_value == "'28 day'" %}DATE_ADD(${date_period}, interval 28 day)
+        {% elsif fact.period._parameter_value == "'91 day'" %}DATE_ADD(${date_period}, interval 91 day)
+        {% elsif fact.period._parameter_value == "'364 day'" %}DATE_ADD(${date_period}, interval 364 day)
+        {% else %}DATE_ADD(${date_date}, interval 1 day)
         {% endif %}
-        {% elsif fact.period._parameter_value contains "week" %}DATEADD('week',1,${date_period})
-        {% elsif fact.period._parameter_value contains "month" %}DATEADD('month',1,${date_period})
-        {% elsif fact.period._parameter_value contains "quarter" %}DATEADD('quarter',1,${date_period})
-        {% elsif fact.period._parameter_value contains "year" %}DATEADD('year',1,${date_period})
+        {% elsif fact.period._parameter_value contains "week" %}DATE_ADD(${date_period}, interval 7 day)
+        {% elsif fact.period._parameter_value contains "month" %}DATE_ADD(${date_period}, interval 1 month)
+        {% elsif fact.period._parameter_value contains "quarter" %}DATE_ADD(${date_period}, interval 1 quarter)
+        {% elsif fact.period._parameter_value contains "year" %}DATE_ADD(${date_period}, interval 1 year)
         {% endif %}) ;;
     allow_fill: no
   }
@@ -315,16 +315,16 @@ view: ad_impressions {
     group_label: "Event"
     sql: ${date_period} >=
       {% if period._parameter_value contains "day" %}
-        {% if period._parameter_value == "'7 day'" %}DATEADD('day',-2*7,${date_period})
-        {% elsif period._parameter_value == "'28 day'" %}DATEADD('day',-2*28,${date_period})
-        {% elsif period._parameter_value == "'91 day'" %}DATEADD('day',-2*91,${date_period})
-        {% elsif period._parameter_value == "'364 day'" %}DATEADD('day',-2*364,${date_period})
-        {% else %}DATEADD('day',-2,CURRENT_DATE())
+        {% if period._parameter_value == "'7 day'" %}DATE_ADD(${date_period}, interval -2*7 day)
+        {% elsif period._parameter_value == "'28 day'" %}DATE_ADD(${date_period}, interval -2*28 day)
+        {% elsif period._parameter_value == "'91 day'" %}DATE_ADD(${date_period}, interval -2*91 day)
+        {% elsif period._parameter_value == "'364 day'" %}DATE_ADD(${date_period}, interval -2*364 day)
+        {% else %}DATE_ADD(CURRENT_DATE(), interval -2 day)
         {% endif %}
-      {% elsif period._parameter_value contains "week" %}DATEADD('week',-2,${date_period})
-      {% elsif period._parameter_value contains "month" %}DATEADD('month',-2,${date_period})
-      {% elsif period._parameter_value contains "quarter" %}DATEADD('quarter',-2,${date_period})
-      {% elsif period._parameter_value contains "year" %}DATEADD('year',-2,${date_period})
+      {% elsif period._parameter_value contains "week" %}DATE_ADD(${date_period}, interval 14 day)
+      {% elsif period._parameter_value contains "month" %}DATE_ADD(${date_period}, interval -2 month)
+      {% elsif period._parameter_value contains "quarter" %}DATE_ADD(${date_period}, interval -2 quarter)
+      {% elsif period._parameter_value contains "year" %}DATE_ADD(${date_period}, interval -2 year)
       {% endif %} ;;
   }
   dimension: date_period_dynamic_grain {
@@ -372,17 +372,19 @@ view: ad_impressions {
       label: "Prior Period"
       type: date
       convert_tz: no
-      sql: DATEADD({% if fact.period._parameter_value contains "day" %}day
-        {% elsif fact.period._parameter_value contains "week" %}week
+      sql: DATE_ADD(${date_period}, interval
+        -{% if fact.period._parameter_value == "'7 day'" %}' 7 '
+        {% elsif fact.period._parameter_value == "'28 day'" %}' 28 '
+        {% elsif fact.period._parameter_value == "'91 day'" %}' 91 '
+        {% elsif fact.period._parameter_value == "'364 day'" %}' 364 '
+        {% else %}' 1 '
+        {% endif %}
+        {% if fact.period._parameter_value contains "day" %}day
+        {% elsif fact.period._parameter_value contains "week" %}day
         {% elsif fact.period._parameter_value contains "month" %}month
         {% elsif fact.period._parameter_value contains "quarter" %}quarter
         {% elsif fact.period._parameter_value contains "year" %}year
-        {% endif %},-{% if fact.period._parameter_value == "'7 day'" %}7
-        {% elsif fact.period._parameter_value == "'28 day'" %}28
-        {% elsif fact.period._parameter_value == "'91 day'" %}91
-        {% elsif fact.period._parameter_value == "'364 day'" %}364
-        {% else %}1
-        {% endif %},${date_period}) ;;
+        {% endif %}) ;;
       allow_fill: no
     }
 

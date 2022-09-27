@@ -2,7 +2,7 @@ include: "/views/**/*.view"
 
 view: ad_impressions_campaign_daily {
   extends: [date_base, period_base, google_ad_metrics_base, google_adwords_base]
-  sql_table_name: @{GOOGLE_ADS_SCHEMA}.campaign_stats ;;
+  sql_table_name: @{GOOGLE_ADS_SCHEMA}.CampaignStats_@{GOOGLE_ADS_CUSTOMER_ID} ;;
 
   dimension: primary_key {
     primary_key: yes
@@ -15,15 +15,15 @@ view: ad_impressions_campaign_daily {
   }
   dimension: base_campaign_id {
     hidden: yes
-    sql: ${TABLE}.base_campaign_id ;;
+    sql: ${TABLE}.BaseCampaignId ;;
   }
   dimension: campaign_id {
     hidden: yes
-    sql: ${TABLE}.campaign_id ;;
+    sql: ${TABLE}.CampaignId ;;
   }
   dimension: campaign_id_string {
     hidden: yes
-    sql: CAST(${TABLE}.campaign_id as STRING) ;;
+    sql: CAST(${TABLE}.CampaignId as STRING) ;;
   }
   dimension: account_primary_key {
     hidden: yes
@@ -36,44 +36,44 @@ view: ad_impressions_campaign_daily {
   dimension: active_view_impressions {
     hidden: yes
     type: number
-    sql: ${TABLE}.active_view_impressions ;;
+    sql: ${TABLE}.ActiveViewImpressions ;;
   }
   dimension: active_view_measurability {
     hidden: yes
     type: number
-    sql: ${TABLE}.active_view_measurability ;;
+    sql: ${TABLE}.ActiveViewMeasurability ;;
   }
   dimension: active_view_measurable_cost {
     hidden: yes
     type: number
-    sql: ${TABLE}.active_view_measurable_cost ;;
+    sql: ${TABLE}.ActiveViewMeasurableCost ;;
   }
   dimension: active_view_measurable_impressions {
     hidden: yes
     type: number
-    sql: ${TABLE}.active_view_measurable_impressions ;;
+    sql: ${TABLE}.ActiveViewMeasurableImpressions ;;
   }
   dimension: active_view_viewability {
     hidden: yes
     type: number
-    sql: ${TABLE}.active_view_viewability ;;
+    sql: ${TABLE}.ActiveViewViewability ;;
   }
   dimension: ad_network_type1 {
     hidden: yes
     type: string
-    sql: ${TABLE}.ad_network_type_1 ;;
+    sql: ${TABLE}.AdNetworkType1 ;;
   }
   dimension: ad_network_type2 {
     hidden: yes
     type: string
-    sql: ${TABLE}.ad_network_type_2 ;;
+    sql: ${TABLE}.AdNetworkType2 ;;
   }
   dimension: clicks {
     hidden: yes
     type: number
-    sql: ${TABLE}.clicks ;;
+    sql: ${TABLE}.Clicks ;;
   }
-  dimension: conversions {
+  dimension: Conversions {
     hidden: yes
     type: number
     sql: ${TABLE}.conversions ;;
@@ -81,32 +81,32 @@ view: ad_impressions_campaign_daily {
   dimension: conversionvalue {
     hidden: yes
     type: number
-    sql: ${TABLE}.conversion_value ;;
+    sql: ${TABLE}.ConversionValue ;;
   }
   dimension: cost {
     hidden: yes
     type: number
-    sql: ${TABLE}.cost ;;
+    sql: ${TABLE}.Cost ;;
   }
   dimension: device {
     hidden: yes
     type: string
-    sql: ${TABLE}.device ;;
+    sql: ${TABLE}.Device ;;
   }
   dimension: impressions {
     hidden: yes
     type: number
-    sql: ${TABLE}.impressions ;;
+    sql: ${TABLE}.Impressions ;;
   }
   dimension: interactions {
     hidden: yes
     type: number
-    sql: ${TABLE}.interactions ;;
+    sql: ${TABLE}.Interactions ;;
   }
   dimension: interaction_types {
     hidden: yes
     type: string
-    sql: ${TABLE}.interaction_types ;;
+    sql: ${TABLE}.InteractionTypes ;;
   }
   dimension: view_through_conversions {
     hidden: yes

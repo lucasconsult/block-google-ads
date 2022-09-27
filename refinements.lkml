@@ -1,7 +1,7 @@
-include: "/views/**/*.view"
-view: ad_impressions_ad {
-  extends: [ google_adwords_base,  google_ad_metrics_base]
-  sql_table_name: @{GOOGLE_ADS_SCHEMA}.AdStats_@{GOOGLE_ADS_CUSTOMER_ID} ;;
+include: "/views/**/*.view.lkml"
+
+view: +ad_impressions_ad {
+
 
 
 
@@ -130,7 +130,7 @@ view: ad_impressions_ad {
     label: "Day of Quarter"
     hidden: yes
     type: number
-    sql: DATE_DIFF(${date_quarter_date},${date_date}, day )  ;;
+    sql: DATEDIFF('day',${date_date}, ${date_quarter_date})  ;;
   }
   dimension: date_last_week {
     group_label: "Event"
@@ -160,7 +160,7 @@ view: ad_impressions_ad {
     hidden: yes
     type: date
     convert_tz: no
-    sql:  DATE_ADD(${date_date}, interval 7 day);;
+    sql:  DATE_ADD(${date_date}, interval 7 days);;
   }
   dimension: date_next_month {
     hidden: yes
@@ -189,7 +189,7 @@ view: ad_impressions_ad {
   dimension: date_days_prior {
     hidden: yes
     type: number
-    sql: DATE_DIFF(CURRENT_DATE(),${date_date}, day) ;;
+    sql: DATEDIFF('day',${date_date}, CURRENT_DATE()) ;;
   }
   dimension: date_day_of_7_days_prior {
     hidden: yes
@@ -215,25 +215,25 @@ view: ad_impressions_ad {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_7_days_prior} AS INT64) day) ;;
+    sql: DATE_ADD(${date_date}, interval -${date_day_of_7_days_prior} day) ;;
   }
   dimension: date_date_28_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_28_days_prior} AS INT64) day) ;;
+    sql: DATE_ADD(${date_date}, interval -${date_day_of_28_days_prior} day) ;;
   }
   dimension: date_date_91_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_91_days_prior} AS INT64) day) ;;
+    sql: DATE_ADD(${date_date}, interval -${date_day_of_91_days_prior} day) ;;
   }
   dimension: date_date_364_days_prior {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATE_ADD(${date_date}, interval -CAST(${date_day_of_364_days_prior} AS INT64) day) ;;
+    sql: DATE_ADD(${date_date} interval -${date_day_of_364_days_prior} day) ;;
   }
 
   dimension: date_start_date_range {
@@ -251,7 +251,7 @@ view: ad_impressions_ad {
   dimension: date_range_difference {
     hidden: yes
     type: number
-    sql: DATE_DIFF(${date_start_date_range},${date_end_date_range}, day) ;;
+    sql: DATEDIFF('day',${date_end_date_range}, ${date_start_date_range}) ;;
 #     expression: diff_days(${date_end_date_range}, ${date_start_date_range}) ;;
   }
   dimension: in_date_range {
@@ -269,7 +269,7 @@ view: ad_impressions_ad {
     hidden: yes
     type: date
     convert_tz: no
-    sql: DATE_ADD(${date_date}, interval CAST(-${date_range_day_of_range_prior} AS INT64) day) ;;
+    sql: DATE_ADD(${date_date}, interval -${date_range_day_of_range_prior} day) ;;
 #     expression: add_days(-1 * ${date_range_difference}, ${date_date}) ;;
   }
   dimension: date_period {
@@ -390,17 +390,17 @@ view: ad_impressions_ad {
       convert_tz: no
       sql: DATE_ADD(
         ${date_period}, interval
-       -{% if fact.period._parameter_value == "'7 day'" %}' 7 '
-        {% elsif fact.period._parameter_value == "'28 day'" %}' 28 '
-        {% elsif fact.period._parameter_value == "'91 day'" %}' 91 '
-        {% elsif fact.period._parameter_value == "'364 day'" %}' 364 '
-        {% else %}' 1 '
-        {% endif %}
-        {% if fact.period._parameter_value contains "day" %}day
-        {% elsif fact.period._parameter_value contains "week" %}day
-        {% elsif fact.period._parameter_value contains "month" %}month
-        {% elsif fact.period._parameter_value contains "quarter" %}quarter
-        {% elsif fact.period._parameter_value contains "year" %}year
+       -{% if fact.period._parameter_value == "'7 day'" %}7
+        {% elsif fact.period._parameter_value == "'28 day'" %}28
+        {% elsif fact.period._parameter_value == "'91 day'" %}91
+        {% elsif fact.period._parameter_value == "'364 day'" %}364
+        {% else %}1
+        {% endif %},
+        {% if fact.period._parameter_value contains "day" %}'day'
+        {% elsif fact.period._parameter_value contains "week" %}'day'
+        {% elsif fact.period._parameter_value contains "month" %}'month'
+        {% elsif fact.period._parameter_value contains "quarter" %}'quarter'
+        {% elsif fact.period._parameter_value contains "year" %}'year'
         {% endif %}) ;;
       allow_fill: no
     }
@@ -650,192 +650,6 @@ view: ad_impressions_ad {
       value_format_name: percent_2
     }
 
-    measure: average_interaction_rate {
-      label: "Interaction Rate"
-      description: "Percent of people that interact with an ad."
-      type: number
-      sql: ${total_interactions}*1.0/nullif(${total_impressions},0) ;;
-      value_format_name: percent_2
-    }
-    measure: average_cost_per_interaction {
-      label: "Cost per Interaction"
-      description: "Average cost per interaction with an ad."
-      type: number
-      sql: ${total_cost}*1.0 / NULLIF(${total_interactions},0) ;;
-      value_format_name: usd
-      link: {
-        label: "By Keyword"
-        url: "/explore/marketing_analytics/ad_impressions?fields=keyword.criteria,fact.average_cost_per_interaction&f[fact.date_date]=this quarter"
-      }
-    }
-    measure: weighted_average_position {
-      label: "Average Position"
-      description: "Average auction position."
-      type: number
-      sql: SUM(${average_position}*${impressions}) / NULLIF(${total_impressions},0) ;;
-      value_format_name: decimal_1
-    }
-    measure: total_interactions {
-      label: "Interactions"
-      description: "Total ad interactions."
-      type:  sum
-      sql:  ${interactions} ;;
-      drill_fields: [ total_impressions]
-      value_format_name: decimal_0
-    }
-    measure: average_click_rate {
-      label: "Click Through Rate"
-      description: "Percent of people that click on an ad."
-      type: number
-      sql: ${total_clicks}*1.0/nullif(${total_impressions},0) ;;
-      value_format_name: percent_2
-      drill_fields: [fact.date_date, campaign.name, average_click_rate]
-    }
-    measure: average_cost_per_conversion {
-      label: "Cost per Conversion"
-      description: "Cost per conversion."
-      type: number
-      sql: ${total_cost}*1.0 / NULLIF(${total_conversions},0) ;;
-      value_format_name: usd
-      drill_fields: [fact.date_date, campaign.name, fact.total_conversions, fact.total_cost, fact.average_cost_per_conversion]
-    }
-    measure: average_cost_per_value {
-      label: "Cost per value"
-      description: "Cost per value."
-      type: number
-      sql: ${total_cost}*1.0 / NULLIF(${total_conversionvalue},0) ;;
-      value_format_name: usd
-      drill_fields: [fact.date_date, campaign.name, fact.total_conversionvalue, fact.total_cost, fact.average_cost_per_conversion]
-    }
-    measure: average_value_per_conversion {
-      label: "Value per Conversion"
-      description: "Average value per conversion."
-      type: number
-      sql: ${total_conversionvalue}*1.0 / NULLIF(${total_conversions},0) ;;
-      value_format_name: usd
-    }
-    measure: average_cost_per_click {
-      label: "Cost per Click"
-      description: "Average cost per ad click."
-      type: number
-      sql: ${total_cost}*1.0 / NULLIF(${total_clicks},0) ;;
-      value_format_name: usd
-      drill_fields: [fact.date_date, campaign.name, average_cost_per_click]
-    }
-    measure: average_value_per_click {
-      label: "Value per Click"
-      description: "Average value per ad click."
-      type: number
-      sql: ${total_conversionvalue}*1.0 / NULLIF(${total_clicks},0) ;;
-      value_format_name: usd
-    }
-    measure: average_cost_per_impression {
-      label: "CPM"
-      description: "Average cost per ad impression viewed."
-      type: number
-      sql: ${total_cost}*1.0 / NULLIF(${total_impressions},0) * 1000.0 ;;
-      value_format_name: usd
-    }
-    measure: average_value_per_impression {
-      label: "Value per Impression"
-      description: "Average value per ad impression viewed."
-      type: number
-      sql: ${total_conversionvalue}*1.0 / NULLIF(${total_impressions},0) ;;
-      value_format_name: usd
-    }
-    measure: average_value_per_cost {
-      label: "ROAS"
-      description: "Average Return on Ad Spend."
-      type: number
-      sql: ${total_conversionvalue}*1.0 / NULLIF(${total_cost},0) ;;
-      value_format_name: percent_0
-    }
-    measure: average_conversion_rate {
-      label: "Conversion Rate"
-      description: "Percent of people that convert after they interact with an ad."
-      type: number
-      sql: ${total_conversions}*1.0 / NULLIF(${total_clicks},0) ;;
-      value_format_name: percent_2
-      drill_fields: [fact.date_date, campaign.name, average_conversion_rate]
-    }
-    measure: cumulative_spend {
-      type: running_total
-      sql: ${total_cost} ;;
-      drill_fields: [fact.date_date, campaign.name, fact.total_cost]
-      value_format_name: usd_0
-      direction: "column"
-    }
-    measure: cumulative_conversions {
-      type: running_total
-      sql: ${total_conversions} ;;
-      drill_fields: [fact.date_date, campaign.name, fact.total_conversions]
-      value_format_name: decimal_0
-      direction: "column"
-    }
-    measure: total_clicks {
-      label: "Clicks"
-      description: "Total ad clicks."
-      type: sum
-      sql: ${clicks} ;;
-      value_format_name: decimal_0
-      drill_fields: [fact.date_date, campaign.name, total_clicks]
-    }
-    measure: total_conversions {
-      label: "Conversions"
-      description: "Total conversions."
-      type: sum
-      sql: ${conversions} ;;
-      value_format_name: decimal_0
-      drill_fields: [fact.date_date, campaign.name, total_conversions]
-    }
-    measure: total_conversionvalue {
-      label: "Conv. Value"
-      description: "Total conversion value."
-      type: sum
-      sql: ${conversionvalue} ;;
-      value_format_name: usd_0
-    }
-    measure: total_cost {
-      label: "Cost"
-      description: "Total cost."
-      type: sum
-      sql: ${cost} ;;
-      value_format_name: usd_0
-      drill_fields: [fact.date_date, campaign.name, total_cost]
-    }
-    measure: total_impressions {
-      label: "Impressions"
-      description: "Total ad impressions."
-      type:  sum
-      sql:  ${impressions} ;;
-      value_format_name: decimal_0
-    }
-    set: ad_metrics_set {
-      fields: [
-        cost,
-        impressions,
-        clicks,
-        conversions,
-        conversionvalue,
-        click_rate,
-        conversion_rate,
-        cost_per_impression,
-        cost_per_click,
-        cost_per_conversion,
-        total_cost,
-        total_impressions,
-        total_clicks,
-        total_conversions,
-        total_conversionvalue,
-        average_click_rate,
-        average_conversion_rate,
-        average_cost_per_impression,
-        average_cost_per_click,
-        average_cost_per_conversion,
-        cumulative_conversions,
-        cumulative_spend,
-        average_value_per_cost
-      ]
-    }
+
 
   }
